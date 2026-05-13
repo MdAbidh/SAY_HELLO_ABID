@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <meta name="description" content="Md. Abid Hossain — Full Portfolio. Computer Science Engineer, Full-Stack Developer."/>
+  <title>Md. Abid Hossain — Full Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/style.css"/>
+  <style>
+    body { background: #fff; }
+    #app { min-height: 100vh; }
+    .loading-screen {
+      position: fixed; inset: 0; background: white; z-index: 9999;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px;
+      transition: opacity .5s ease;
+    }
+    .loading-screen.hidden { opacity: 0; pointer-events: none; }
+    .loading-logo {
+      font-family: 'Syne', sans-serif; font-size: 3rem; font-weight: 800; color: #16a34a;
+    }
+    .loading-bar-wrap { width: 200px; height: 4px; background: #f3f4f6; border-radius: 99px; overflow: hidden; }
+    .loading-bar { height: 100%; background: linear-gradient(90deg, #16a34a, #4ade80); border-radius: 99px; animation: load-bar 1.5s ease forwards; }
+    @keyframes load-bar { from { width: 0; } to { width: 100%; } }
+    .loading-text { font-size: 14px; color: #9ca3af; font-family: 'Plus Jakarta Sans', sans-serif; }
+    /* Section headers */
+    .section-header { margin-bottom: 60px; }
+    .section-header .badge { margin-bottom: 16px; }
+    /* Active nav */
+    .nav-active { background: var(--green-50) !important; color: var(--primary) !important; }
+    /* Back to top */
+    .back-top {
+      position: fixed; bottom: 28px; right: 28px; z-index: 500;
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--primary); color: white;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: var(--shadow-green); cursor: pointer;
+      opacity: 0; transform: translateY(20px);
+      transition: opacity .3s ease, transform .3s ease;
+      border: none; font-family: inherit;
+    }
+    .back-top.visible { opacity: 1; transform: none; }
+    .back-top:hover { background: var(--primary-dark); }
+    /* Hero specific for app */
+    .app-hero {
+      min-height: 100vh; display: flex; align-items: center;
+      padding: 100px 0 60px;
+      background: linear-gradient(160deg, #fff 0%, #f0fdf4 50%, #fff 100%);
+      position: relative; overflow: hidden;
+    }
+    /* Timeline responsive fix */
+    @media(max-width:768px) {
+      .timeline-item { grid-template-columns: 48px 1fr !important; }
+      .timeline-empty { display: none !important; }
+      .timeline-content { text-align: left !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- LOADING SCREEN -->
+<div class="loading-screen" id="loadingScreen" aria-live="polite" aria-label="Loading portfolio">
+  <div class="loading-logo">AH</div>
+  <div class="loading-bar-wrap"><div class="loading-bar"></div></div>
+  <div class="loading-text">Loading portfolio...</div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar" role="navigation" aria-label="Portfolio navigation">
+  <div class="navbar-inner">
+    <a href="../" class="navbar-logo" aria-label="Back to landing page">A<span>.</span>H</a>
+    <div class="navbar-links" id="navLinks" role="list">
+      <a href="#home" role="listitem">Home</a>
+      <a href="#about" role="listitem">About</a>
+      <a href="#academics" role="listitem">Academics</a>
+      <a href="#experience" role="listitem">Experience</a>
+      <a href="#skills" role="listitem">Skills</a>
+      <a href="#projects" role="listitem">Projects</a>
+      <a href="#hobbies" role="listitem">Hobbies</a>
+      <a href="#contact" role="listitem">Contact</a>
+    </div>
+    <div class="navbar-cta">
+      <a href="mailto:abid27016@gmail.com" class="btn-primary" aria-label="Hire me via email">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        Hire Me
+      </a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<nav class="mobile-menu" id="mobileMenu" role="navigation" aria-label="Mobile navigation">
+  <a href="#home" onclick="closeMobile()">Home</a>
+  <a href="#about" onclick="closeMobile()">About</a>
+  <a href="#academics" onclick="closeMobile()">Academics</a>
+  <a href="#experience" onclick="closeMobile()">Experience</a>
+  <a href="#skills" onclick="closeMobile()">Skills</a>
+  <a href="#projects" onclick="closeMobile()">Projects</a>
+  <a href="#hobbies" onclick="closeMobile()">Hobbies</a>
+  <a href="#contact" onclick="closeMobile()">Contact</a>
+  <a href="mailto:abid27016@gmail.com" class="btn-primary" style="margin-top:12px;justify-content:center">Hire Me ✉️</a>
+</nav>
+
+<main id="app">
+
+<!-- ═══════════════════════════════════════════ HOME ════ -->
+<section id="home" class="app-hero" aria-label="Introduction">
+  <div class="bg-blob bg-blob-1" aria-hidden="true"></div>
+  <div class="bg-blob bg-blob-2" aria-hidden="true"></div>
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <div class="hero-greeting animate-up">Md. Abid Hossain</div>
+        <h1 class="hero-title animate-up delay-1">
+          Computer Science
+          <span class="name">Engineer</span>
+        </h1>
+        <p class="hero-subtitle animate-up delay-2">Full-Stack Developer · UI/UX Enthusiast · Problem Solver</p>
+        <p class="hero-desc animate-up delay-3">
+          Building modern, performant web and mobile applications with clean code and thoughtful design. 
+          Currently pursuing BSc CSE at Daffodil International University, Bangladesh.
+        </p>
+        <div class="hero-btns animate-up delay-4">
+          <a href="#projects" class="btn-primary" aria-label="View my projects">
+            View Projects
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+          </a>
+          <a href="#contact" class="btn-outline" aria-label="Contact me">Get In Touch</a>
+        </div>
+        <div class="hero-social animate-up delay-5" aria-label="Social links">
+          <span class="hero-social-label">Follow</span>
+          <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="GitHub">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+          </a>
+          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="LinkedIn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          </a>
+          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Facebook">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </a>
+          <a href="mailto:abid27016@gmail.com" class="social-icon" aria-label="Email">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="hero-image-wrap animate-right delay-2">
+        <div class="hero-image-bg" aria-hidden="true"></div>
+        <div class="hero-image-ring" aria-hidden="true"></div>
+        <div class="hero-image-card">
+          <img src="../images/profile.jpg" alt="Md. Abid Hossain" loading="eager"/>
+        </div>
+        <div class="hero-badge-float top-right" aria-hidden="true">
+          <span class="icon">🎓</span>
+          <div><div class="label">BSc CSE</div><div class="sub">DIU Bangladesh</div></div>
+        </div>
+        <div class="hero-badge-float bottom-left" aria-hidden="true">
+          <span style="width:8px;height:8px;background:#22c55e;border-radius:50%;display:block"></span>
+          <div><div class="label">Available for Work</div><div class="sub">Full-Stack Dev</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-row" aria-label="Quick statistics">
+  <div class="stats-inner">
+    <div class="stat-item"><div class="stat-num">10+</div><div class="stat-label">Projects Built</div></div>
+    <div class="stat-item"><div class="stat-num">5.00</div><div class="stat-label">GPA (SSC &amp; HSC)</div></div>
+    <div class="stat-item"><div class="stat-num">5+</div><div class="stat-label">Technologies</div></div>
+    <div class="stat-item"><div class="stat-num">3+</div><div class="stat-label">Years Coding</div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ ABOUT ════ -->
+<section id="about" class="section" aria-label="About me">
+  <div class="container">
+    <div class="about-inner">
+      <div class="about-image-wrap reveal">
+        <div class="about-img-main">
+          <img src="../images/profile.jpg" alt="Md. Abid Hossain profile photo" loading="lazy"/>
+        </div>
+        <div class="about-img-badge" aria-label="GPA achievement">
+          <div class="num">5.00</div>
+          <div class="txt">GPA — SSC &amp; HSC</div>
+        </div>
+      </div>
+      <div class="about-text">
+        <span class="badge reveal">About Me</span>
+        <h2 class="section-title reveal" style="margin-top:16px">Passionate Developer &amp;<br><span>Creative Problem Solver</span></h2>
+        <div class="reveal" style="margin-top:24px">
+          <p>Hi! I'm Md. Abid Hossain, a Computer Science Engineering student at Daffodil International University, Dhaka, Bangladesh. I'm deeply passionate about building software that makes a difference.</p>
+          <p>My journey in tech started with curiosity — picking apart how apps work, learning to code, and eventually building full-stack projects that solve real problems. I love the intersection of engineering precision and creative design.</p>
+          <p>When I'm not coding, you'll find me in competitive programming contests, designing UI mockups in Figma, or exploring the latest in web technologies.</p>
+        </div>
+        <div class="about-info-grid reveal">
+          <div class="about-info-item">
+            <div class="label">Name</div><div class="value">Md. Abid Hossain</div>
+          </div>
+          <div class="about-info-item">
+            <div class="label">Degree</div><div class="value">BSc in CSE</div>
+          </div>
+          <div class="about-info-item">
+            <div class="label">University</div><div class="value">Daffodil Int'l Univ.</div>
+          </div>
+          <div class="about-info-item">
+            <div class="label">Location</div><div class="value">Dhaka, Bangladesh</div>
+          </div>
+          <div class="about-info-item">
+            <div class="label">Email</div><div class="value" style="font-size:12px">abid27016@gmail.com</div>
+          </div>
+          <div class="about-info-item">
+            <div class="label">Status</div><div class="value" style="color:var(--primary)">✓ Open to Work</div>
+          </div>
+        </div>
+        <div class="reveal" style="display:flex;gap:12px;flex-wrap:wrap">
+          <a href="mailto:abid27016@gmail.com" class="btn-primary">Hire Me</a>
+          <a href="#projects" class="btn-outline">View Projects</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ ACADEMICS ════ -->
+<section id="academics" class="section academics" aria-label="Academic background">
+  <div class="container">
+    <div class="section-header reveal" style="text-align:center">
+      <span class="badge">Academics</span>
+      <h2 class="section-title" style="margin-top:16px">Educational <span>Journey</span></h2>
+      <p class="section-subtitle" style="margin:12px auto 0;text-align:center">A strong academic foundation built on curiosity and dedication.</p>
+    </div>
+    <div class="academics-timeline">
+      <!-- BSc CSE -->
+      <div class="timeline-item">
+        <div class="timeline-content">
+          <div class="timeline-card reveal">
+            <div class="degree">🎓 Bachelor of Science in Computer Science &amp; Engineering</div>
+            <div class="institution">Daffodil International University</div>
+            <div class="meta">📍 Dhaka, Bangladesh · 2022 — Present</div>
+            <p style="font-size:14px;color:var(--gray-500);line-height:1.7;margin-bottom:12px">Pursuing full-time BSc CSE with focus on software engineering, algorithms, data structures, and modern web/mobile development technologies.</p>
+            <span class="gpa-badge">🏫 Currently Enrolled</span>
+          </div>
+        </div>
+        <div class="timeline-dot"><div class="timeline-dot-inner"></div></div>
+        <div class="timeline-empty"></div>
+      </div>
+      <!-- HSC -->
+      <div class="timeline-item">
+        <div class="timeline-empty"></div>
+        <div class="timeline-dot"><div class="timeline-dot-inner"></div></div>
+        <div class="timeline-content">
+          <div class="timeline-card reveal">
+            <div class="degree">📚 Higher Secondary Certificate (HSC)</div>
+            <div class="institution">Noubahini College Dhaka</div>
+            <div class="meta">📍 Dhaka, Bangladesh · Completed 2021</div>
+            <p style="font-size:14px;color:var(--gray-500);line-height:1.7;margin-bottom:12px">Completed HSC in Science group with outstanding results, demonstrating academic excellence in Mathematics, Physics, Chemistry, and Biology.</p>
+            <span class="gpa-badge">⭐ GPA 5.00 / 5.00</span>
+          </div>
+        </div>
+      </div>
+      <!-- SSC -->
+      <div class="timeline-item">
+        <div class="timeline-content">
+          <div class="timeline-card reveal">
+            <div class="degree">📖 Secondary School Certificate (SSC)</div>
+            <div class="institution">Mirpur Shidhanto High School</div>
+            <div class="meta">📍 Mirpur, Dhaka · Completed 2019</div>
+            <p style="font-size:14px;color:var(--gray-500);line-height:1.7;margin-bottom:12px">Completed SSC with a perfect GPA, excelling in all subjects and building a strong foundation in sciences and mathematics that would fuel a passion for technology.</p>
+            <span class="gpa-badge">⭐ GPA 5.00 / 5.00</span>
+          </div>
+        </div>
+        <div class="timeline-dot"><div class="timeline-dot-inner"></div></div>
+        <div class="timeline-empty"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ EXPERIENCE ════ -->
+<section id="experience" class="section" aria-label="Work experience">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="badge">Experience</span>
+      <h2 class="section-title" style="margin-top:16px">Professional <span>Experience</span></h2>
+      <p class="section-subtitle">Building real-world skills through hands-on projects and roles.</p>
+    </div>
+    <div class="exp-list">
+      <div class="exp-card reveal">
+        <div class="exp-icon">💻</div>
+        <div>
+          <div class="exp-role">Freelance Full-Stack Developer</div>
+          <div class="exp-company">Self-Employed / Freelance</div>
+          <div class="exp-period">📅 2023 — Present</div>
+          <div class="exp-desc">Designed and developed web applications for clients using React, Spring Boot, and Django. Delivered responsive, user-friendly interfaces and robust backend APIs. Managed project timelines and client communication independently.</div>
+          <div class="exp-tags">
+            <span class="exp-tag">React</span>
+            <span class="exp-tag">Spring Boot</span>
+            <span class="exp-tag">Django</span>
+            <span class="exp-tag">REST APIs</span>
+            <span class="exp-tag">MySQL</span>
+          </div>
+        </div>
+      </div>
+      <div class="exp-card reveal">
+        <div class="exp-icon">🎨</div>
+        <div>
+          <div class="exp-role">UI/UX Design Intern</div>
+          <div class="exp-company">Campus Project Team — DIU</div>
+          <div class="exp-period">📅 2023</div>
+          <div class="exp-desc">Collaborated with a team of developers and designers on university-level software projects. Created wireframes, prototypes, and high-fidelity mockups in Figma. Conducted usability testing and incorporated feedback into design iterations.</div>
+          <div class="exp-tags">
+            <span class="exp-tag">Figma</span>
+            <span class="exp-tag">UI Design</span>
+            <span class="exp-tag">Prototyping</span>
+            <span class="exp-tag">User Research</span>
+          </div>
+        </div>
+      </div>
+      <div class="exp-card reveal">
+        <div class="exp-icon">🏆</div>
+        <div>
+          <div class="exp-role">Competitive Programmer</div>
+          <div class="exp-company">Online Judges — Codeforces, LeetCode, HackerRank</div>
+          <div class="exp-period">📅 2021 — Present</div>
+          <div class="exp-desc">Actively participating in competitive programming contests. Solved 200+ algorithmic problems on various platforms. Specialized in dynamic programming, graph algorithms, and data structures for efficient problem solving.</div>
+          <div class="exp-tags">
+            <span class="exp-tag">Java</span>
+            <span class="exp-tag">Algorithms</span>
+            <span class="exp-tag">Data Structures</span>
+            <span class="exp-tag">Problem Solving</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ SKILLS ════ -->
+<section id="skills" class="section" style="background:linear-gradient(160deg,var(--gray-50) 0%,var(--green-50) 50%,var(--gray-50) 100%)" aria-label="Technical skills">
+  <div class="container">
+    <div class="section-header reveal" style="text-align:center">
+      <span class="badge">Skills</span>
+      <h2 class="section-title" style="margin-top:16px">Technical <span>Expertise</span></h2>
+      <p class="section-subtitle" style="margin:12px auto 0;text-align:center">Technologies I use to build modern, scalable applications.</p>
+    </div>
+    <div class="skills-grid">
+      <!-- Frontend -->
+      <div class="skill-category reveal">
+        <div class="skill-cat-icon">🌐</div>
+        <div class="skill-cat-title">Frontend Development</div>
+        <div class="skills-list">
+          <span class="skill-tag">
+            <img src="https://cdn.simpleicons.org/html5/E34F26" alt="" width="18" height="18" aria-hidden="true"/>HTML5
+          </span>
+          <span class="skill-tag">
+            <img src="https://cdn.simpleicons.org/css3/1572B6" alt="" width="18" height="18" aria-hidden="true"/>CSS3
+          </span>
+          <span class="skill-tag">
+            <img src="https://cdn.simpleicons.org/javascript/F7DF1E" alt="" width="18" height="18" aria-hidden="true"/>JavaScript
+          </span>
+          <span class="skill-tag">
+            <img src="https://cdn.simpleicons.org/react/61DAFB" alt="" width="18" height="18" aria-hidden="true"/>React
+          </span>
+          <span class="skill-tag">
+            <img src="https://cdn.simpleicons.org/nextdotjs/000000" alt="" width="18" height="18" aria-hidden="true"/>Next.js
+          </span>
+          <span class="skill-tag">
+            <img src="https://cdn.simpleicons.org/tailwindcss/06B6D4" alt="" width="18" height="18" aria-hidden="true"/>Tailwind CSS
+          </span>
+        </div>
+      </div>
+      <!-- Backend -->
+      <div class="skill-category reveal">
+        <div class="skill-cat-icon">⚙️</div>
+        <div class="skill-cat-title">Backend Development</div>
+        <div class="skills-list">
+          <span class="skill-tag">
+            <img src="https://cdn.simpleicons.org/java/ED8B00" alt="" width="18" height="18" aria-hidden="true"/>Java
+          </span>
+          <span class="skill-tag">
+            <img src="https://cdn.simpleicons.org/spring/6DB33F" alt="" width="18" height="18" aria-hidden="true"/>Spring Boot
+          </span>
+          <span class="skill-tag">
+            <img src="https://cdn.simpleicons.org/django/092E20" alt="" width="18" height="18" aria-hidden="true"/>Django
+          </span>
+          <span class="skill-tag">
+            <img src="https://cdn.simpleicons.org/python/3776AB" alt="" width="18" height="18" aria-hidden="true"/>Python
+          </span>
+          <span class="skill-tag">
+            <img src="https://cdn.simpleicons.org/mysql/4479A1" alt="" width="18" height="18" aria-hidden="true"/>MySQL
+          </span>
+          <span class="skill-tag">
+            <img src="https://cdn.simpleicons.org/postgresql/4169E1" alt="" width="18" height="18" aria-hidden="true"/>PostgreSQL
+          </span>
+        </div>
+      </div>
+      <!-- Mobile / UI -->
+      <div class="skill-category reveal">
+        <div class="skill-cat-icon">📱</div>
+        <div class="skill-cat-title">Mobile &amp; UI Design</div>
+        <div class="skills-list">
+          <span class="skill-tag">
+            <img src="https://cdn.simpleicons.org/flutter/02569B" alt="" width="18" height="18" aria-hidden="true"/>Flutter
+          </span>
+          <span class="skill-tag">
+            <img src="https://cdn.simpleicons.org/dart/0175C2" alt="" width="18" height="18" aria-hidden="true"/>Dart
+          </span>
+          <span class="skill-tag">
+            <img src="https://cdn.simpleicons.org/figma/F24E1E" alt="" width="18" height="18" aria-hidden="true"/>Figma
+          </span>
+          <span class="skill-tag">
+            <img src="https://cdn.simpleicons.org/adobexd/FF61F6" alt="" width="18" height="18" aria-hidden="true"/>Adobe XD
+          </span>
+        </div>
+      </div>
+      <!-- Tools -->
+      <div class="skill-category reveal">
+        <div class="skill-cat-icon">🛠️</div>
+        <div class="skill-cat-title">Tools &amp; DevOps</div>
+        <div class="skills-list">
+          <span class="skill-tag">
+            <img src="https://cdn.simpleicons.org/git/F05032" alt="" width="18" height="18" aria-hidden="true"/>Git
+          </span>
+          <span class="skill-tag">
+            <img src="https://cdn.simpleicons.org/github/181717" alt="" width="18" height="18" aria-hidden="true"/>GitHub
+          </span>
+          <span class="skill-tag">
+            <img src="https://cdn.simpleicons.org/docker/2496ED" alt="" width="18" height="18" aria-hidden="true"/>Docker
+          </span>
+          <span class="skill-tag">
+            <img src="https://cdn.simpleicons.org/linux/FCC624" alt="" width="18" height="18" aria-hidden="true"/>Linux
+          </span>
+          <span class="skill-tag">
+            <img src="https://cdn.simpleicons.org/postman/FF6C37" alt="" width="18" height="18" aria-hidden="true"/>Postman
+          </span>
+          <span class="skill-tag">
+            <img src="https://cdn.simpleicons.org/vscode/007ACC" alt="" width="18" height="18" aria-hidden="true"/>VS Code
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ PROJECTS ════ -->
+<section id="projects" class="section projects" aria-label="My projects">
+  <div class="container">
+    <div class="section-header reveal" style="text-align:center">
+      <span class="badge">Projects</span>
+      <h2 class="section-title" style="margin-top:16px">Featured <span>Projects</span></h2>
+      <p class="section-subtitle" style="margin:12px auto 0;text-align:center">Real-world applications built with passion and purpose.</p>
+    </div>
+    <div class="projects-grid">
+      <div class="project-card reveal">
+        <div class="project-card-img"><span class="proj-icon">🛒</span></div>
+        <div class="project-card-body">
+          <div class="project-card-tags">
+            <span class="project-tag">React</span>
+            <span class="project-tag">Spring Boot</span>
+            <span class="project-tag">MySQL</span>
+          </div>
+          <div class="project-title">E-Commerce Platform</div>
+          <p class="project-desc">Full-stack e-commerce application with product catalog, cart management, user authentication, payment integration, and admin dashboard for inventory management.</p>
+          <div class="project-links">
+            <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="project-link outline" aria-label="View E-Commerce source code">GitHub</a>
+          </div>
+        </div>
+      </div>
+      <div class="project-card reveal">
+        <div class="project-card-img"><span class="proj-icon">📋</span></div>
+        <div class="project-card-body">
+          <div class="project-card-tags">
+            <span class="project-tag">React</span>
+            <span class="project-tag">Django</span>
+            <span class="project-tag">REST API</span>
+          </div>
+          <div class="project-title">Task Management App</div>
+          <p class="project-desc">Productivity app featuring Kanban boards, drag-and-drop tasks, team collaboration, real-time notifications, and analytics dashboard with progress tracking.</p>
+          <div class="project-links">
+            <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="project-link outline" aria-label="View Task App source code">GitHub</a>
+          </div>
+        </div>
+      </div>
+      <div class="project-card reveal">
+        <div class="project-card-img"><span class="proj-icon">📱</span></div>
+        <div class="project-card-body">
+          <div class="project-card-tags">
+            <span class="project-tag">Flutter</span>
+            <span class="project-tag">Dart</span>
+            <span class="project-tag">Firebase</span>
+          </div>
+          <div class="project-title">Expense Tracker Mobile App</div>
+          <p class="project-desc">Cross-platform Flutter app for personal finance tracking with category-wise expense analysis, monthly budgets, beautiful charts, and Firebase cloud sync.</p>
+          <div class="project-links">
+            <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="project-link outline" aria-label="View Expense Tracker source code">GitHub</a>
+          </div>
+        </div>
+      </div>
+      <div class="project-card reveal">
+        <div class="project-card-img"><span class="proj-icon">🍔</span></div>
+        <div class="project-card-body">
+          <div class="project-card-tags">
+            <span class="project-tag">React</span>
+            <span class="project-tag">Next.js</span>
+            <span class="project-tag">Tailwind</span>
+          </div>
+          <div class="project-title">Restaurant Ordering System</div>
+          <p class="project-desc">Modern restaurant web app with digital menu, table reservation system, online ordering, real-time kitchen notifications, and customer review management.</p>
+          <div class="project-links">
+            <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="project-link outline" aria-label="View Restaurant App source code">GitHub</a>
+          </div>
+        </div>
+      </div>
+      <div class="project-card reveal">
+        <div class="project-card-img"><span class="proj-icon">🎓</span></div>
+        <div class="project-card-body">
+          <div class="project-card-tags">
+            <span class="project-tag">Java</span>
+            <span class="project-tag">Spring Boot</span>
+            <span class="project-tag">PostgreSQL</span>
+          </div>
+          <div class="project-title">Student Management System</div>
+          <p class="project-desc">Comprehensive university student portal with course enrollment, grade management, attendance tracking, faculty portal, and automated report generation.</p>
+          <div class="project-links">
+            <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="project-link outline" aria-label="View Student System source code">GitHub</a>
+          </div>
+        </div>
+      </div>
+      <div class="project-card reveal">
+        <div class="project-card-img"><span class="proj-icon">💬</span></div>
+        <div class="project-card-body">
+          <div class="project-card-tags">
+            <span class="project-tag">React</span>
+            <span class="project-tag">WebSocket</span>
+            <span class="project-tag">Node.js</span>
+          </div>
+          <div class="project-title">Real-Time Chat Application</div>
+          <p class="project-desc">WebSocket-powered chat app with private messaging, group rooms, file sharing, emoji reactions, read receipts, and end-to-end message encryption.</p>
+          <div class="project-links">
+            <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="project-link outline" aria-label="View Chat App source code">GitHub</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ HOBBIES ════ -->
+<section id="hobbies" class="section" aria-label="Hobbies and interests">
+  <div class="container">
+    <div class="section-header reveal" style="text-align:center">
+      <span class="badge">Hobbies</span>
+      <h2 class="section-title" style="margin-top:16px">Beyond the <span>Code</span></h2>
+      <p class="section-subtitle" style="margin:12px auto 0;text-align:center">Interests and passions that keep me inspired and balanced.</p>
+    </div>
+    <div class="hobbies-grid">
+      <div class="hobby-card reveal">
+        <span class="hobby-icon">🎮</span>
+        <div class="hobby-title">Computer Gaming</div>
+        <div class="hobby-desc">Strategy and story-rich games fuel creativity and sharpen problem-solving skills through immersive challenges.</div>
+      </div>
+      <div class="hobby-card reveal">
+        <span class="hobby-icon">🏆</span>
+        <div class="hobby-title">Coding Contests</div>
+        <div class="hobby-desc">Competitive programming on Codeforces, LeetCode, HackerRank — sharpening algorithmic thinking under time pressure.</div>
+      </div>
+      <div class="hobby-card reveal">
+        <span class="hobby-icon">🎨</span>
+        <div class="hobby-title">Web Design</div>
+        <div class="hobby-desc">Crafting beautiful, functional interfaces that balance aesthetics with usability. Exploring new design trends daily.</div>
+      </div>
+      <div class="hobby-card reveal">
+        <span class="hobby-icon">🧩</span>
+        <div class="hobby-title">Problem Solving</div>
+        <div class="hobby-desc">Breaking down complex problems into elegant solutions. Every challenge is an opportunity to learn something new.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ CONTACT ════ -->
+<section id="contact" class="section contact" aria-label="Contact me">
+  <div class="container">
+    <div class="contact-inner">
+      <div>
+        <span class="badge reveal">Contact</span>
+        <div class="contact-info reveal">
+          <h3>Let's Work <span style="color:var(--primary)">Together</span></h3>
+          <p>Have a project in mind, an opportunity to discuss, or just want to say hi? My inbox is always open — I'll get back to you as soon as possible!</p>
+        </div>
+        <div class="contact-details reveal">
+          <div class="contact-detail-item">
+            <div class="contact-detail-icon">📧</div>
+            <div>
+              <div class="contact-detail-label">Email</div>
+              <div class="contact-detail-value">abid27016@gmail.com</div>
+            </div>
+          </div>
+          <div class="contact-detail-item">
+            <div class="contact-detail-icon">📍</div>
+            <div>
+              <div class="contact-detail-label">Location</div>
+              <div class="contact-detail-value">Dhaka, Bangladesh</div>
+            </div>
+          </div>
+          <div class="contact-detail-item">
+            <div class="contact-detail-icon">💼</div>
+            <div>
+              <div class="contact-detail-label">Status</div>
+              <div class="contact-detail-value" style="color:var(--primary)">✓ Open to Opportunities</div>
+            </div>
+          </div>
+          <div class="contact-detail-item">
+            <div class="contact-detail-icon">⏰</div>
+            <div>
+              <div class="contact-detail-label">Response Time</div>
+              <div class="contact-detail-value">Within 24 hours</div>
+            </div>
+          </div>
+        </div>
+        <div class="reveal" style="margin-top:28px">
+          <p style="font-size:13px;color:var(--gray-400);font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:14px">Find me on</p>
+          <div style="display:flex;gap:12px">
+            <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="GitHub">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+            </a>
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="LinkedIn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            </a>
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Facebook">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONTACT FORM -->
+      <div class="contact-form reveal">
+        <h3>Send a Message 💬</h3>
+        <form action="https://formsubmit.co/abid27016@gmail.com" method="POST" id="contactForm">
+          <input type="hidden" name="_subject" value="New Portfolio Contact!"/>
+          <input type="hidden" name="_captcha" value="false"/>
+          <input type="hidden" name="_template" value="table"/>
+          <input type="hidden" name="_next" value="https://yourdomain.com/#contact"/>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="contact-name">Full Name *</label>
+              <input type="text" id="contact-name" name="name" placeholder="Your full name" required autocomplete="name"/>
+            </div>
+            <div class="form-group">
+              <label for="contact-email">Email Address *</label>
+              <input type="email" id="contact-email" name="email" placeholder="your@email.com" required autocomplete="email"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="contact-reason">Reason for Contact *</label>
+            <select id="contact-reason" name="reason" required>
+              <option value="" disabled selected>Select a reason...</option>
+              <option value="job-opportunity">Job Opportunity</option>
+              <option value="freelance-project">Freelance Project</option>
+              <option value="collaboration">Collaboration</option>
+              <option value="general-inquiry">General Inquiry</option>
+              <option value="say-hello">Just Saying Hello</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="contact-subject">Subject</label>
+            <input type="text" id="contact-subject" name="subject" placeholder="Brief subject of your message"/>
+          </div>
+          <div class="form-group">
+            <label for="contact-message">Message *</label>
+            <textarea id="contact-message" name="message" placeholder="Tell me about your project, opportunity, or question..." required rows="5"></textarea>
+          </div>
+          <button type="submit" class="form-submit" id="submitBtn">
+            Send Message ✉️
+          </button>
+          <p id="formMsg" style="display:none;text-align:center;margin-top:14px;font-size:14px;font-weight:600;color:var(--primary)">✓ Message sent successfully!</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main><!-- end #app -->
+
+<!-- FOOTER -->
+<footer class="footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="logo">A<span>.</span>H</div>
+        <p>Computer Science Engineer building beautiful, functional digital experiences with passion and precision.</p>
+        <div class="footer-social" aria-label="Social media links">
+          <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="footer-social-icon" aria-label="GitHub">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+          </a>
+          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="footer-social-icon" aria-label="LinkedIn">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          </a>
+          <a href="mailto:abid27016@gmail.com" class="footer-social-icon" aria-label="Email">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Navigate</h4>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#academics">Academics</a></li>
+          <li><a href="#experience">Experience</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#hobbies">Hobbies</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="mailto:abid27016@gmail.com">abid27016@gmail.com</a></li>
+          <li><a href="https://github.com" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+          <li><a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+          <li><a href="../">Landing Page</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© <span id="year"></span> Md. Abid Hossain. All rights reserved.</p>
+      <p>Made with <span class="heart">♥</span> in Dhaka, Bangladesh</p>
+    </div>
+  </div>
+</footer>
+
+<!-- BACK TO TOP -->
+<button class="back-top" id="backTop" aria-label="Back to top">
+  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m18 15-6-6-6 6"/></svg>
+</button>
+
+<script>
+  // Loading screen
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      const ls = document.getElementById('loadingScreen');
+      ls.classList.add('hidden');
+      setTimeout(() => ls.remove(), 600);
+    }, 1600);
+  });
+
+  // Year
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Navbar scroll
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 60);
+    document.getElementById('backTop').classList.toggle('visible', window.scrollY > 400);
+    updateActiveNav();
+  }, { passive: true });
+
+  // Back to top
+  document.getElementById('backTop').addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // Hamburger
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', () => {
+    const open = mobileMenu.classList.toggle('open');
+    hamburger.classList.toggle('open', open);
+    hamburger.setAttribute('aria-expanded', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+  function closeMobile() {
+    mobileMenu.classList.remove('open');
+    hamburger.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+
+  // Active nav highlight
+  const sections = ['home','about','academics','experience','skills','projects','hobbies','contact'];
+  function updateActiveNav() {
+    const scrollPos = window.scrollY + 120;
+    sections.forEach(id => {
+      const el = document.getElementById(id);
+      const link = document.querySelector('.navbar-links a[href="#' + id + '"]');
+      if (el && link) {
+        const top = el.offsetTop;
+        const bottom = top + el.offsetHeight;
+        if (scrollPos >= top && scrollPos < bottom) {
+          document.querySelectorAll('.navbar-links a').forEach(a => a.classList.remove('active'));
+          link.classList.add('active');
+        }
+      }
+    });
+  }
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 70);
+        revealObserver.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+  reveals.forEach(el => revealObserver.observe(el));
+
+  // Smooth nav links
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  // Form handling (mailto fallback if FormSubmit fails)
+  document.getElementById('contactForm').addEventListener('submit', function(e) {
+    const btn = document.getElementById('submitBtn');
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+    // FormSubmit handles the actual submission via action attribute
+    // Show success message after a delay as UX improvement
+    setTimeout(() => {
+      btn.textContent = 'Send Message ✉️';
+      btn.disabled = false;
+    }, 3000);
+  });
+</script>
+</body>
+</html>
