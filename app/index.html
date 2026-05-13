@@ -9,22 +9,64 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="../css/style.css"/>
+  <!-- Lottie Player -->
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+  <!-- EmailJS SDK -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <style>
+    :root {
+      --primary: #16a34a;
+      --primary-dark: #15803d;
+      --green-50: #f0fdf4;
+      --gray-50: #f9fafb;
+      --gray-400: #9ca3af;
+      --gray-500: #6b7280;
+      --shadow-green: 0 10px 40px -10px rgba(22, 163, 74, 0.3);
+    }
     body { background: #fff; }
     #app { min-height: 100vh; }
+
+    /* ═══════════════════ OPTIMIZED LOADING SCREEN ═══════════════════ */
     .loading-screen {
-      position: fixed; inset: 0; background: white; z-index: 9999;
-      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px;
-      transition: opacity .5s ease;
+      position: fixed; inset: 0; background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 50%, #ffffff 100%); z-index: 9999;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 24px;
+      transition: opacity .6s ease, transform .6s ease;
     }
-    .loading-screen.hidden { opacity: 0; pointer-events: none; }
+    .loading-screen.hidden { opacity: 0; pointer-events: none; transform: scale(1.05); }
     .loading-logo {
-      font-family: 'Syne', sans-serif; font-size: 3rem; font-weight: 800; color: #16a34a;
+      font-family: 'Syne', sans-serif; font-size: 3.5rem; font-weight: 800; color: var(--primary);
+      letter-spacing: -1px; position: relative;
+      animation: logoPulse 2s ease-in-out infinite;
     }
-    .loading-bar-wrap { width: 200px; height: 4px; background: #f3f4f6; border-radius: 99px; overflow: hidden; }
-    .loading-bar { height: 100%; background: linear-gradient(90deg, #16a34a, #4ade80); border-radius: 99px; animation: load-bar 1.5s ease forwards; }
+    .loading-logo::after {
+      content: ''; position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%);
+      width: 60px; height: 4px; background: linear-gradient(90deg, transparent, var(--primary), transparent);
+      border-radius: 99px;
+    }
+    @keyframes logoPulse {
+      0%, 100% { transform: scale(1); text-shadow: 0 0 0 rgba(22,163,74,0); }
+      50% { transform: scale(1.05); text-shadow: 0 0 30px rgba(22,163,74,0.2); }
+    }
+    .loading-lottie {
+      width: 180px; height: 180px;
+      filter: drop-shadow(0 8px 24px rgba(22,163,74,0.15));
+    }
+    .loading-bar-wrap {
+      width: 220px; height: 5px; background: #e5e7eb; border-radius: 99px; overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .loading-bar {
+      height: 100%; background: linear-gradient(90deg, #16a34a, #4ade80, #16a34a); background-size: 200% 100%;
+      border-radius: 99px; animation: load-bar 1.8s ease forwards, shimmer 2s infinite;
+    }
     @keyframes load-bar { from { width: 0; } to { width: 100%; } }
-    .loading-text { font-size: 14px; color: #9ca3af; font-family: 'Plus Jakarta Sans', sans-serif; }
+    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+    .loading-text {
+      font-size: 14px; color: var(--gray-400); font-family: 'Plus Jakarta Sans', sans-serif;
+      letter-spacing: 0.05em; animation: textFade 1.5s ease infinite alternate;
+    }
+    @keyframes textFade { from { opacity: 0.6; } to { opacity: 1; } }
+
     /* Section headers */
     .section-header { margin-bottom: 60px; }
     .section-header .badge { margin-bottom: 16px; }
@@ -56,15 +98,82 @@
       .timeline-empty { display: none !important; }
       .timeline-content { text-align: left !important; }
     }
+
+    /* ═══════════════════ LOTTIE ICON STYLES ═══════════════════ */
+    .lottie-icon {
+      width: 64px; height: 64px;
+      filter: drop-shadow(0 4px 12px rgba(22,163,74,0.12));
+      transition: transform 0.3s ease;
+    }
+    .lottie-icon:hover { transform: scale(1.1); }
+    .lottie-icon-sm { width: 48px; height: 48px; }
+    .lottie-icon-lg { width: 80px; height: 80px; }
+    .lottie-icon-xl { width: 120px; height: 120px; }
+
+    /* Experience card lottie */
+    .exp-lottie-wrap {
+      width: 72px; height: 72px; flex-shrink: 0;
+      background: linear-gradient(135deg, var(--green-50), #ffffff);
+      border-radius: 16px; display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 16px rgba(22,163,74,0.08);
+    }
+
+    /* Project card lottie */
+    .project-lottie-wrap {
+      width: 100%; height: 200px;
+      background: linear-gradient(135deg, var(--green-50), #ffffff);
+      border-radius: 16px 16px 0 0;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .project-lottie-wrap lottie-player {
+      width: 140px; height: 140px;
+    }
+
+    /* Hobby card lottie */
+    .hobby-lottie-wrap {
+      width: 80px; height: 80px; margin: 0 auto 16px;
+      background: linear-gradient(135deg, var(--green-50), #ffffff);
+      border-radius: 20px; display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 16px rgba(22,163,74,0.08);
+    }
+
+    /* Contact detail lottie */
+    .contact-lottie-wrap {
+      width: 56px; height: 56px; flex-shrink: 0;
+      background: linear-gradient(135deg, var(--green-50), #ffffff);
+      border-radius: 14px; display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 16px rgba(22,163,74,0.08);
+    }
+
+    /* Form status messages */
+    .form-status {
+      display: none; text-align: center; margin-top: 14px;
+      font-size: 14px; font-weight: 600; padding: 10px; border-radius: 8px;
+    }
+    .form-status.success { display: block; background: var(--green-50); color: var(--primary); }
+    .form-status.error { display: block; background: #fef2f2; color: #dc2626; }
+    .form-submit:disabled {
+      opacity: 0.7; cursor: not-allowed;
+    }
   </style>
+<base target="_blank">
 </head>
 <body>
 
-<!-- LOADING SCREEN -->
+<!-- ═══════════════════ LOADING SCREEN ═══════════════════ -->
 <div class="loading-screen" id="loadingScreen" aria-live="polite" aria-label="Loading portfolio">
-  <div class="loading-logo">AH</div>
+  <div class="loading-logo">A<span style="color:#4ade80">.</span>H</div>
+  <lottie-player
+    class="loading-lottie"
+    src="https://assets10.lottiefiles.com/packages/lf20_5njp3vgg.json"
+    background="transparent"
+    speed="1"
+    loop
+    autoplay
+  ></lottie-player>
   <div class="loading-bar-wrap"><div class="loading-bar"></div></div>
-  <div class="loading-text">Loading portfolio...</div>
+  <div class="loading-text">Loading amazing things for you...</div>
 </div>
 
 <!-- NAVBAR -->
@@ -291,8 +400,18 @@
       <p class="section-subtitle">Building real-world skills through hands-on projects and roles.</p>
     </div>
     <div class="exp-list">
+      <!-- Experience 1: Freelance -->
       <div class="exp-card reveal">
-        <div class="exp-icon">💻</div>
+        <div class="exp-lottie-wrap">
+          <lottie-player
+            class="lottie-icon"
+            src="https://assets10.lottiefiles.com/packages/lf20_3rwasyjy.json"
+            background="transparent"
+            speed="1"
+            loop
+            autoplay
+          ></lottie-player>
+        </div>
         <div>
           <div class="exp-role">Freelance Full-Stack Developer</div>
           <div class="exp-company">Self-Employed / Freelance</div>
@@ -307,8 +426,18 @@
           </div>
         </div>
       </div>
+      <!-- Experience 2: UI/UX -->
       <div class="exp-card reveal">
-        <div class="exp-icon">🎨</div>
+        <div class="exp-lottie-wrap">
+          <lottie-player
+            class="lottie-icon"
+            src="https://assets10.lottiefiles.com/packages/lf20_5tkzkblw.json"
+            background="transparent"
+            speed="1"
+            loop
+            autoplay
+          ></lottie-player>
+        </div>
         <div>
           <div class="exp-role">UI/UX Design Intern</div>
           <div class="exp-company">Campus Project Team — DIU</div>
@@ -322,8 +451,18 @@
           </div>
         </div>
       </div>
+      <!-- Experience 3: Competitive Programmer -->
       <div class="exp-card reveal">
-        <div class="exp-icon">🏆</div>
+        <div class="exp-lottie-wrap">
+          <lottie-player
+            class="lottie-icon"
+            src="https://assets10.lottiefiles.com/packages/lf20_cwqe8f.json"
+            background="transparent"
+            speed="1"
+            loop
+            autoplay
+          ></lottie-player>
+        </div>
         <div>
           <div class="exp-role">Competitive Programmer</div>
           <div class="exp-company">Online Judges — Codeforces, LeetCode, HackerRank</div>
@@ -457,8 +596,17 @@
       <p class="section-subtitle" style="margin:12px auto 0;text-align:center">Real-world applications built with passion and purpose.</p>
     </div>
     <div class="projects-grid">
+      <!-- Project 1: E-Commerce -->
       <div class="project-card reveal">
-        <div class="project-card-img"><span class="proj-icon">🛒</span></div>
+        <div class="project-lottie-wrap">
+          <lottie-player
+            src="https://assets10.lottiefiles.com/packages/lf20_6wutsrox.json"
+            background="transparent"
+            speed="1"
+            loop
+            autoplay
+          ></lottie-player>
+        </div>
         <div class="project-card-body">
           <div class="project-card-tags">
             <span class="project-tag">React</span>
@@ -472,8 +620,17 @@
           </div>
         </div>
       </div>
+      <!-- Project 2: Task Management -->
       <div class="project-card reveal">
-        <div class="project-card-img"><span class="proj-icon">📋</span></div>
+        <div class="project-lottie-wrap">
+          <lottie-player
+            src="https://assets10.lottiefiles.com/packages/lf20_qmfs6c3i.json"
+            background="transparent"
+            speed="1"
+            loop
+            autoplay
+          ></lottie-player>
+        </div>
         <div class="project-card-body">
           <div class="project-card-tags">
             <span class="project-tag">React</span>
@@ -487,8 +644,17 @@
           </div>
         </div>
       </div>
+      <!-- Project 3: Expense Tracker -->
       <div class="project-card reveal">
-        <div class="project-card-img"><span class="proj-icon">📱</span></div>
+        <div class="project-lottie-wrap">
+          <lottie-player
+            src="https://assets10.lottiefiles.com/packages/lf20_1idqu1ac.json"
+            background="transparent"
+            speed="1"
+            loop
+            autoplay
+          ></lottie-player>
+        </div>
         <div class="project-card-body">
           <div class="project-card-tags">
             <span class="project-tag">Flutter</span>
@@ -502,8 +668,17 @@
           </div>
         </div>
       </div>
+      <!-- Project 4: Restaurant -->
       <div class="project-card reveal">
-        <div class="project-card-img"><span class="proj-icon">🍔</span></div>
+        <div class="project-lottie-wrap">
+          <lottie-player
+            src="https://assets10.lottiefiles.com/packages/lf20_j1adxtyb.json"
+            background="transparent"
+            speed="1"
+            loop
+            autoplay
+          ></lottie-player>
+        </div>
         <div class="project-card-body">
           <div class="project-card-tags">
             <span class="project-tag">React</span>
@@ -517,8 +692,17 @@
           </div>
         </div>
       </div>
+      <!-- Project 5: Student Management -->
       <div class="project-card reveal">
-        <div class="project-card-img"><span class="proj-icon">🎓</span></div>
+        <div class="project-lottie-wrap">
+          <lottie-player
+            src="https://assets10.lottiefiles.com/packages/lf20_w51pcehl.json"
+            background="transparent"
+            speed="1"
+            loop
+            autoplay
+          ></lottie-player>
+        </div>
         <div class="project-card-body">
           <div class="project-card-tags">
             <span class="project-tag">Java</span>
@@ -532,8 +716,17 @@
           </div>
         </div>
       </div>
+      <!-- Project 6: Chat App -->
       <div class="project-card reveal">
-        <div class="project-card-img"><span class="proj-icon">💬</span></div>
+        <div class="project-lottie-wrap">
+          <lottie-player
+            src="https://assets10.lottiefiles.com/packages/lf20_u25cckyh.json"
+            background="transparent"
+            speed="1"
+            loop
+            autoplay
+          ></lottie-player>
+        </div>
         <div class="project-card-body">
           <div class="project-card-tags">
             <span class="project-tag">React</span>
@@ -560,23 +753,63 @@
       <p class="section-subtitle" style="margin:12px auto 0;text-align:center">Interests and passions that keep me inspired and balanced.</p>
     </div>
     <div class="hobbies-grid">
+      <!-- Hobby 1: Gaming -->
       <div class="hobby-card reveal">
-        <span class="hobby-icon">🎮</span>
+        <div class="hobby-lottie-wrap">
+          <lottie-player
+            class="lottie-icon-lg"
+            src="https://assets10.lottiefiles.com/packages/lf20_cwqe8f.json"
+            background="transparent"
+            speed="1"
+            loop
+            autoplay
+          ></lottie-player>
+        </div>
         <div class="hobby-title">Computer Gaming</div>
         <div class="hobby-desc">Strategy and story-rich games fuel creativity and sharpen problem-solving skills through immersive challenges.</div>
       </div>
+      <!-- Hobby 2: Coding Contests -->
       <div class="hobby-card reveal">
-        <span class="hobby-icon">🏆</span>
+        <div class="hobby-lottie-wrap">
+          <lottie-player
+            class="lottie-icon-lg"
+            src="https://assets10.lottiefiles.com/packages/lf20_touohix0.json"
+            background="transparent"
+            speed="1"
+            loop
+            autoplay
+          ></lottie-player>
+        </div>
         <div class="hobby-title">Coding Contests</div>
         <div class="hobby-desc">Competitive programming on Codeforces, LeetCode, HackerRank — sharpening algorithmic thinking under time pressure.</div>
       </div>
+      <!-- Hobby 3: Web Design -->
       <div class="hobby-card reveal">
-        <span class="hobby-icon">🎨</span>
+        <div class="hobby-lottie-wrap">
+          <lottie-player
+            class="lottie-icon-lg"
+            src="https://assets10.lottiefiles.com/packages/lf20_5tkzkblw.json"
+            background="transparent"
+            speed="1"
+            loop
+            autoplay
+          ></lottie-player>
+        </div>
         <div class="hobby-title">Web Design</div>
         <div class="hobby-desc">Crafting beautiful, functional interfaces that balance aesthetics with usability. Exploring new design trends daily.</div>
       </div>
+      <!-- Hobby 4: Problem Solving -->
       <div class="hobby-card reveal">
-        <span class="hobby-icon">🧩</span>
+        <div class="hobby-lottie-wrap">
+          <lottie-player
+            class="lottie-icon-lg"
+            src="https://assets10.lottiefiles.com/packages/lf20_3jmvq04g.json"
+            background="transparent"
+            speed="1"
+            loop
+            autoplay
+          ></lottie-player>
+        </div>
         <div class="hobby-title">Problem Solving</div>
         <div class="hobby-desc">Breaking down complex problems into elegant solutions. Every challenge is an opportunity to learn something new.</div>
       </div>
@@ -595,29 +828,69 @@
           <p>Have a project in mind, an opportunity to discuss, or just want to say hi? My inbox is always open — I'll get back to you as soon as possible!</p>
         </div>
         <div class="contact-details reveal">
+          <!-- Email -->
           <div class="contact-detail-item">
-            <div class="contact-detail-icon">📧</div>
+            <div class="contact-lottie-wrap">
+              <lottie-player
+                class="lottie-icon-sm"
+                src="https://assets10.lottiefiles.com/packages/lf20_u25cckyh.json"
+                background="transparent"
+                speed="1"
+                loop
+                autoplay
+              ></lottie-player>
+            </div>
             <div>
               <div class="contact-detail-label">Email</div>
               <div class="contact-detail-value">abid27016@gmail.com</div>
             </div>
           </div>
+          <!-- Location -->
           <div class="contact-detail-item">
-            <div class="contact-detail-icon">📍</div>
+            <div class="contact-lottie-wrap">
+              <lottie-player
+                class="lottie-icon-sm"
+                src="https://assets10.lottiefiles.com/packages/lf20_1t8na1gy.json"
+                background="transparent"
+                speed="1"
+                loop
+                autoplay
+              ></lottie-player>
+            </div>
             <div>
               <div class="contact-detail-label">Location</div>
               <div class="contact-detail-value">Dhaka, Bangladesh</div>
             </div>
           </div>
+          <!-- Status -->
           <div class="contact-detail-item">
-            <div class="contact-detail-icon">💼</div>
+            <div class="contact-lottie-wrap">
+              <lottie-player
+                class="lottie-icon-sm"
+                src="https://assets10.lottiefiles.com/packages/lf20_jcikwtux.json"
+                background="transparent"
+                speed="1"
+                loop
+                autoplay
+              ></lottie-player>
+            </div>
             <div>
               <div class="contact-detail-label">Status</div>
               <div class="contact-detail-value" style="color:var(--primary)">✓ Open to Opportunities</div>
             </div>
           </div>
+          <!-- Response Time -->
           <div class="contact-detail-item">
-            <div class="contact-detail-icon">⏰</div>
+            <div class="contact-lottie-wrap">
+              <lottie-player
+                class="lottie-icon-sm"
+                src="https://assets10.lottiefiles.com/packages/lf20_pqnfmkj9.json"
+                background="transparent"
+                speed="1"
+                loop
+                autoplay
+              ></lottie-player>
+            </div>
             <div>
               <div class="contact-detail-label">Response Time</div>
               <div class="contact-detail-value">Within 24 hours</div>
@@ -640,22 +913,18 @@
         </div>
       </div>
 
-      <!-- CONTACT FORM -->
+      <!-- ═══════════════════ CONTACT FORM with EmailJS ═══════════════════ -->
       <div class="contact-form reveal">
         <h3>Send a Message 💬</h3>
-        <form action="https://formsubmit.co/abid27016@gmail.com" method="POST" id="contactForm">
-          <input type="hidden" name="_subject" value="New Portfolio Contact!"/>
-          <input type="hidden" name="_captcha" value="false"/>
-          <input type="hidden" name="_template" value="table"/>
-          <input type="hidden" name="_next" value="https://yourdomain.com/#contact"/>
+        <form id="contactForm">
           <div class="form-row">
             <div class="form-group">
               <label for="contact-name">Full Name *</label>
-              <input type="text" id="contact-name" name="name" placeholder="Your full name" required autocomplete="name"/>
+              <input type="text" id="contact-name" name="from_name" placeholder="Your full name" required autocomplete="name"/>
             </div>
             <div class="form-group">
               <label for="contact-email">Email Address *</label>
-              <input type="email" id="contact-email" name="email" placeholder="your@email.com" required autocomplete="email"/>
+              <input type="email" id="contact-email" name="from_email" placeholder="your@email.com" required autocomplete="email"/>
             </div>
           </div>
           <div class="form-group">
@@ -680,7 +949,8 @@
           <button type="submit" class="form-submit" id="submitBtn">
             Send Message ✉️
           </button>
-          <p id="formMsg" style="display:none;text-align:center;margin-top:14px;font-size:14px;font-weight:600;color:var(--primary)">✓ Message sent successfully!</p>
+          <p id="formMsgSuccess" class="form-status success">✓ Message sent successfully! I'll get back to you soon.</p>
+          <p id="formMsgError" class="form-status error">✗ Failed to send message. Please try again or email me directly.</p>
         </form>
       </div>
     </div>
@@ -744,13 +1014,28 @@
 </button>
 
 <script>
-  // Loading screen
+  // ═══════════════════ EmailJS Configuration ═══════════════════
+  // IMPORTANT: Replace these with your actual EmailJS credentials from https://dashboard.emailjs.com/
+  // 1. Sign up at EmailJS → 2. Add Email Service → 3. Create Template → 4. Copy Public Key
+  const EMAILJS_PUBLIC_KEY = "YOUR_PUBLIC_KEY";   // e.g., "1PVVpqMraXzVXJuXv"
+  const EMAILJS_SERVICE_ID = "YOUR_SERVICE_ID";     // e.g., "service_qz6zxh3"
+  const EMAILJS_TEMPLATE_ID = "YOUR_TEMPLATE_ID";   // e.g., "template_s6ll9hl"
+  const MY_EMAIL = "abid27016@gmail.com";
+
+  // Initialize EmailJS
+  (function() {
+    if (EMAILJS_PUBLIC_KEY && !EMAILJS_PUBLIC_KEY.includes("YOUR_")) {
+      emailjs.init(EMAILJS_PUBLIC_KEY);
+    }
+  })();
+
+  // ═══════════════════ Loading Screen ═══════════════════
   window.addEventListener('load', () => {
     setTimeout(() => {
       const ls = document.getElementById('loadingScreen');
       ls.classList.add('hidden');
       setTimeout(() => ls.remove(), 600);
-    }, 1600);
+    }, 2000);
   });
 
   // Year
@@ -826,17 +1111,45 @@
     });
   });
 
-  // Form handling (mailto fallback if FormSubmit fails)
-  document.getElementById('contactForm').addEventListener('submit', function(e) {
+  // ═══════════════════ EmailJS Contact Form Handler ═══════════════════
+  document.getElementById('contactForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
     const btn = document.getElementById('submitBtn');
+    const successMsg = document.getElementById('formMsgSuccess');
+    const errorMsg = document.getElementById('formMsgError');
+
+    // Hide previous messages
+    successMsg.style.display = 'none';
+    errorMsg.style.display = 'none';
+
+    // Check if EmailJS is configured
+    if (EMAILJS_PUBLIC_KEY.includes("YOUR_") || EMAILJS_SERVICE_ID.includes("YOUR_") || EMAILJS_TEMPLATE_ID.includes("YOUR_")) {
+      // Fallback: open mailto with form data
+      const name = document.getElementById('contact-name').value;
+      const email = document.getElementById('contact-email').value;
+      const reason = document.getElementById('contact-reason').value;
+      const subject = document.getElementById('contact-subject').value || 'Portfolio Contact';
+      const message = document.getElementById('contact-message').value;
+      const body = `Name: ${name}%0D%0AEmail: ${email}%0D%0AReason: ${reason}%0D%0A%0D%0AMessage:%0D%0A${message}`;
+      window.location.href = `mailto:${MY_EMAIL}?subject=${encodeURIComponent(subject)}&body=${body}`;
+      return;
+    }
+
     btn.textContent = 'Sending...';
     btn.disabled = true;
-    // FormSubmit handles the actual submission via action attribute
-    // Show success message after a delay as UX improvement
-    setTimeout(() => {
+
+    try {
+      const response = await emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, this);
+      console.log('Email sent successfully!', response);
+      successMsg.style.display = 'block';
+      this.reset();
+    } catch (error) {
+      console.error('Failed to send email:', error);
+      errorMsg.style.display = 'block';
+    } finally {
       btn.textContent = 'Send Message ✉️';
       btn.disabled = false;
-    }, 3000);
+    }
   });
 </script>
 </body>
