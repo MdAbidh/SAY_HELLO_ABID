@@ -208,7 +208,7 @@
       bottom: 0; left: -100px;
     }
 
-    /* ═══════════════════ HERO ═══════════════════ */
+    /* ═══════════════════ HERO — FULL RESPONSIVE OVERHAUL ═══════════════════ */
     .app-hero {
       min-height: 100vh;
       display: flex; align-items: center;
@@ -287,6 +287,13 @@
     .hero-badge-float.top-right { top: 20px; right: -20px; }
     .hero-badge-float.bottom-left { bottom: 20px; left: -20px; }
 
+    .hero-bsc-icon {
+      width: 36px; height: 36px; background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border-radius: 10px; display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .hero-bsc-icon svg { color: white; }
+
     .animate-up { opacity: 0; transform: translateY(30px); animation: animUp 0.7s cubic-bezier(0.4,0,0.2,1) forwards; }
     .animate-right { opacity: 0; transform: translateX(30px); animation: animRight 0.7s cubic-bezier(0.4,0,0.2,1) forwards; }
     @keyframes animUp { to { opacity:1; transform:none; } }
@@ -296,6 +303,54 @@
     .delay-3 { animation-delay: 0.3s; }
     .delay-4 { animation-delay: 0.4s; }
     .delay-5 { animation-delay: 0.5s; }
+
+    /* ═══ MOBILE HERO PROFILE PIC ═══ */
+    .hero-mobile-pic {
+      display: none;
+      justify-content: center; margin-bottom: 32px;
+    }
+    .hero-mobile-pic-inner {
+      position: relative; display: flex; align-items: center; justify-content: center;
+    }
+    .hero-mobile-pic-inner::before {
+      content: ''; position: absolute;
+      width: 220px; height: 220px; border-radius: 50%;
+      background: radial-gradient(circle, var(--green-100) 0%, transparent 70%);
+    }
+    .hero-mobile-pic-inner::after {
+      content: ''; position: absolute;
+      width: 200px; height: 200px; border-radius: 50%;
+      border: 2px dashed var(--green-200);
+      animation: rotate 20s linear infinite;
+    }
+    .hero-mobile-img {
+      width: 170px; height: 170px; border-radius: 50%; overflow: hidden;
+      border: 4px solid var(--card-bg);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.15), 0 0 0 6px var(--green-100);
+      position: relative; z-index: 2;
+    }
+    .hero-mobile-img img {
+      width: 100%; height: 100%; object-fit: cover; object-position: center top;
+    }
+
+    /* Mobile stats chips under pic */
+    .hero-mobile-chips {
+      display: none;
+      justify-content: center; gap: 10px; flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+    .hero-chip {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--card-bg); border: 1.5px solid var(--border);
+      border-radius: 99px; padding: 6px 14px;
+      font-size: 12px; font-weight: 700; color: var(--text);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .hero-chip .dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--primary); flex-shrink: 0;
+      box-shadow: 0 0 0 2px rgba(22,163,74,0.2);
+    }
 
     /* Stats */
     .stats-row {
@@ -368,7 +423,7 @@
     }
     .highlight-desc { font-size: 14px; color: var(--text-muted); line-height: 1.7; }
 
-    /* ═══════════════════ ACADEMICS ═══════════════════ */
+    /* ═══════════════════ ACADEMICS — REDESIGNED ═══════════════════ */
     .academics {
       background: linear-gradient(160deg, var(--bg-alt) 0%, var(--green-50) 50%, var(--bg-alt) 100%);
     }
@@ -383,34 +438,58 @@
       transition: var(--transition);
       display: flex; flex-direction: column;
     }
-    .edu-card::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
-      background: linear-gradient(90deg, var(--primary), var(--primary-light));
-      border-radius: 24px 24px 0 0; z-index: 1;
-    }
     .edu-card:hover {
       transform: translateY(-8px);
       box-shadow: var(--shadow-card-hover);
       border-color: var(--primary);
     }
-    /* School image at top */
-    .edu-card-img {
-      width: 100%; height: 160px; overflow: hidden;
-      background: linear-gradient(135deg, var(--green-50), var(--green-100));
+
+    /* NEW: Clean professional header with gradient + icon only (no emoji) */
+    .edu-card-header-visual {
+      width: 100%; height: 100px; overflow: hidden;
       position: relative;
-    }
-    .edu-card-img img {
-      width: 100%; height: 100%; object-fit: cover;
-      transition: transform 0.4s ease;
-    }
-    .edu-card:hover .edu-card-img img { transform: scale(1.05); }
-    .edu-card-img-placeholder {
-      width: 100%; height: 100%;
       display: flex; align-items: center; justify-content: center;
-      flex-direction: column; gap: 8px;
+      padding: 0 24px;
     }
-    .edu-card-img-placeholder img { width: 56px; height: 56px; opacity: 0.7; }
-    .edu-card-img-placeholder span { font-size: 12px; color: var(--primary); font-weight: 600; }
+    .edu-card-header-visual::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, #16a34a 0%, #4ade80 60%, #bbf7d0 100%);
+      z-index: 0;
+    }
+    [data-theme="dark"] .edu-card-header-visual::before {
+      background: linear-gradient(135deg, #ea580c 0%, #fb923c 60%, #fed7aa 100%);
+    }
+    .edu-card-header-visual::after {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: radial-gradient(circle at 20% 80%, rgba(255,255,255,0.18) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(255,255,255,0.12) 0%, transparent 40%);
+      z-index: 1;
+    }
+    .edu-header-content {
+      position: relative; z-index: 2;
+      display: flex; align-items: center; gap: 16px; width: 100%;
+    }
+    /* Large icon circle in header */
+    .edu-header-icon-circle {
+      width: 52px; height: 52px; border-radius: 50%;
+      background: rgba(255,255,255,0.22); backdrop-filter: blur(8px);
+      border: 1.5px solid rgba(255,255,255,0.4);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .edu-header-icon-circle svg { color: white; }
+    .edu-header-text { display: flex; flex-direction: column; gap: 3px; }
+    .edu-header-level {
+      font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.75);
+      text-transform: uppercase; letter-spacing: 0.08em;
+    }
+    .edu-header-title {
+      font-family: var(--font-display); font-size: 1rem; font-weight: 800;
+      color: white; line-height: 1.2;
+    }
+
     .edu-card-body { padding: 24px 28px 28px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
     .edu-card-badge {
       display: inline-flex; align-items: center; gap: 6px;
@@ -423,10 +502,20 @@
     .edu-card-badge.completed {
       background: var(--gray-100); color: var(--gray-600); border: 1px solid var(--border);
     }
-    /* BSc header with lottie */
+    [data-theme="dark"] .edu-card-badge.completed {
+      background: #222; color: #aaa; border-color: #333;
+    }
     .edu-degree-row {
       display: flex; align-items: flex-start; gap: 12px;
     }
+    /* NEW: small institution logo/icon inside card body */
+    .edu-inst-icon {
+      width: 44px; height: 44px; flex-shrink: 0;
+      background: var(--green-50); border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      border: 1px solid var(--green-100);
+    }
+    .edu-inst-icon img { width: 24px; height: 24px; }
     .edu-lottie-wrap {
       width: 44px; height: 44px; flex-shrink: 0;
       background: var(--green-50); border-radius: 12px;
@@ -524,10 +613,12 @@
     }
     .slider-dot.active { background: var(--primary); width: 28px; border-radius: 99px; }
 
-    /* ═══════════════════ SKILLS ═══════════════════ */
+    /* ═══════════════════ SKILLS — DESKTOP + MOBILE CAROUSEL ═══════════════════ */
     #skills {
       background: linear-gradient(160deg, var(--bg-alt) 0%, var(--green-50) 50%, var(--bg-alt) 100%);
     }
+
+    /* Desktop grid (unchanged) */
     .skills-grid {
       display: grid; grid-template-columns: repeat(2, 1fr);
       gap: 24px; margin-top: 56px;
@@ -555,6 +646,87 @@
       background: var(--green-50); transform: translateY(-2px);
     }
     .skill-tag img { width: 16px; height: 16px; flex-shrink: 0; }
+    .skill-tag .lucide-icon {
+      width: 16px; height: 16px; flex-shrink: 0;
+      color: currentColor; opacity: 0.75;
+    }
+    .skill-tag:hover .lucide-icon { opacity: 1; }
+
+    /* ══ MOBILE SKILLS CAROUSEL ══ */
+    .skills-mobile-carousel {
+      display: none; /* shown in mobile media query */
+      flex-direction: column; gap: 0; margin-top: 40px;
+    }
+    .skills-carousel-track-wrap {
+      overflow: hidden; width: 100%;
+      border-radius: 24px;
+    }
+    .skills-carousel-track {
+      display: flex;
+      transition: transform 0.45s cubic-bezier(0.4,0,0.2,1);
+      will-change: transform;
+    }
+    .skills-carousel-slide {
+      min-width: 100%; padding: 0 2px; box-sizing: border-box;
+    }
+    .skills-carousel-card {
+      background: var(--card-bg); border: 1.5px solid var(--border);
+      border-radius: 24px; padding: 28px 24px 24px;
+      display: flex; flex-direction: column; gap: 0;
+      transition: border-color 0.3s;
+    }
+    .skills-carousel-card-header {
+      display: flex; align-items: center; gap: 14px; margin-bottom: 20px;
+      padding-bottom: 18px; border-bottom: 1px solid var(--border);
+    }
+    .skills-carousel-cat-icon {
+      width: 48px; height: 48px; border-radius: 14px;
+      background: var(--green-50); border: 1px solid var(--green-100);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .skills-carousel-cat-title {
+      font-family: var(--font-display); font-size: 1.1rem; font-weight: 800;
+      color: var(--text); line-height: 1.2;
+    }
+    .skills-carousel-cat-count {
+      font-size: 12px; color: var(--text-muted); font-weight: 500; margin-top: 2px;
+    }
+    .skills-carousel-tags {
+      display: flex; flex-wrap: wrap; gap: 8px;
+    }
+    .skills-carousel-tag {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 9px 14px; background: var(--bg-alt);
+      border: 1px solid var(--border); border-radius: 12px;
+      font-size: 13px; font-weight: 600; color: var(--text-muted);
+      transition: var(--transition);
+    }
+    .skills-carousel-tag img { width: 16px; height: 16px; flex-shrink: 0; }
+    .skills-carousel-tag .lucide-icon { width: 16px; height: 16px; flex-shrink: 0; }
+    /* Carousel nav bar */
+    .skills-carousel-nav {
+      display: flex; align-items: center; justify-content: center;
+      gap: 14px; margin-top: 20px;
+    }
+    .skills-carousel-btn {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--card-bg); border: 1.5px solid var(--border);
+      color: var(--text-muted); cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: var(--transition);
+    }
+    .skills-carousel-btn:hover, .skills-carousel-btn:active {
+      border-color: var(--primary); color: var(--primary); background: var(--green-50);
+    }
+    .skills-carousel-dots { display: flex; gap: 7px; align-items: center; }
+    .skills-carousel-dot {
+      width: 9px; height: 9px; border-radius: 50%;
+      background: var(--border); border: none; cursor: pointer;
+      transition: var(--transition); padding: 0; display: block;
+    }
+    .skills-carousel-dot.active {
+      background: var(--primary); width: 26px; border-radius: 99px;
+    }
 
     /* ═══════════════════ PROJECTS SLIDER ═══════════════════ */
     #projects { background: var(--bg-alt); }
@@ -612,7 +784,7 @@
       border-color: var(--primary); color: var(--primary); background: var(--green-50);
     }
 
-    /* ═══════════════════ CONTACT — FORM ONLY ═══════════════════ */
+    /* ═══════════════════ CONTACT ═══════════════════ */
     #contact {
       background: linear-gradient(160deg, var(--bg-alt) 0%, var(--green-50) 40%, var(--bg-alt) 100%);
       padding: 100px 0;
@@ -753,38 +925,9 @@
     .back-top.visible { opacity: 1; transform: none; }
     .back-top:hover { background: var(--primary-dark); transform: translateY(-3px); }
 
-    /* Mobile profile picture — shown only on small screens */
-    .hero-mobile-pic {
-      display: none; justify-content: center; margin-bottom: 28px;
-    }
-    .hero-mobile-pic-inner {
-      position: relative; display: flex; align-items: center; justify-content: center;
-    }
-    .hero-mobile-pic-inner::before {
-      content: ''; position: absolute;
-      width: 196px; height: 196px; border-radius: 50%;
-      background: radial-gradient(circle, var(--green-100) 0%, transparent 70%);
-    }
-    .hero-mobile-pic-inner::after {
-      content: ''; position: absolute;
-      width: 180px; height: 180px; border-radius: 50%;
-      border: 2px dashed var(--green-200);
-      animation: rotate 20s linear infinite;
-    }
-    .hero-mobile-img {
-      width: 156px; height: 156px; border-radius: 50%; overflow: hidden;
-      border: 4px solid var(--card-bg);
-      box-shadow: 0 12px 40px rgba(0,0,0,0.14), 0 0 0 6px var(--green-100);
-      position: relative; z-index: 2;
-    }
-    .hero-mobile-img img {
-      width: 100%; height: 100%; object-fit: cover; object-position: center top;
-    }
-
     /* ═══════════════════ RESPONSIVE ═══════════════════ */
     @media (max-width: 1024px) {
       .edu-grid { grid-template-columns: 1fr 1fr; }
-      .skills-grid { grid-template-columns: 1fr; }
       .exp-slide, .proj-slide { min-width: 100%; }
       .hero-image-bg { width: 300px; height: 300px; }
       .hero-image-ring { width: 268px; height: 268px; }
@@ -792,12 +935,30 @@
       .hero-badge-float.top-right { right: -10px; top: 10px; }
       .hero-badge-float.bottom-left { left: -10px; bottom: 10px; }
     }
-    @media (max-width: 768px) {
-      .hero-inner { grid-template-columns: 1fr; text-align: center; }
+
+    /* ══ TABLET: 768–900px ══ */
+    @media (max-width: 900px) {
       .hero-image-wrap { display: none; }
       .hero-mobile-pic { display: flex; }
+      .hero-mobile-chips { display: flex; }
+      .hero-inner {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 0;
+      }
       .hero-btns, .hero-social { justify-content: center; }
-      .hero-desc { margin-inline: auto; }
+      .hero-desc { margin-inline: auto; max-width: 520px; }
+      .hero-greeting { margin-bottom: 12px; }
+      .hero-title { font-size: clamp(2.4rem, 6vw, 3.4rem); letter-spacing: -1.5px; margin-bottom: 16px; }
+      .hero-subtitle { font-size: 0.95rem; }
+      .hero-desc { font-size: 0.95rem; margin-bottom: 28px; }
+      .hero-btns { margin-bottom: 28px; }
+      /* Skills: hide grid, show carousel on tablet */
+      .skills-grid { display: none; }
+      .skills-mobile-carousel { display: flex; }
+    }
+
+    @media (max-width: 768px) {
       .about-inner-compact { grid-template-columns: 1fr; }
       .about-highlights-side { padding-top: 0; }
       .about-info-grid { grid-template-columns: 1fr 1fr; }
@@ -812,20 +973,36 @@
       .exp-slide, .proj-slide { min-width: 100%; }
       .exp-card, .project-card { min-height: unset; }
     }
+
+    @media (max-width: 600px) {
+      .app-hero { padding: 90px 0 60px; min-height: 100svh; }
+      .hero-mobile-pic { margin-bottom: 24px; }
+      .hero-mobile-img { width: 150px; height: 150px; }
+      .hero-mobile-pic-inner::before { width: 196px; height: 196px; }
+      .hero-mobile-pic-inner::after { width: 178px; height: 178px; }
+      .hero-title { font-size: clamp(2rem, 8.5vw, 2.8rem); letter-spacing: -1px; }
+      .hero-subtitle { font-size: 0.875rem; }
+      .hero-desc { font-size: 0.9rem; line-height: 1.75; }
+      .hero-btns { gap: 10px; }
+      .btn-primary, .btn-outline { padding: 10px 18px; font-size: 13px; }
+      .hero-social { gap: 8px; flex-wrap: wrap; justify-content: center; }
+      .hero-chip { font-size: 11px; padding: 5px 11px; }
+    }
+
     @media (max-width: 480px) {
       .stats-inner { grid-template-columns: repeat(2,1fr); }
       .about-info-grid { grid-template-columns: 1fr; }
       .container { padding: 0 16px; }
-      .app-hero { padding: 80px 0 40px; }
       .section { padding: 60px 0; }
-      .hero-title { font-size: clamp(1.8rem, 8vw, 2.8rem); }
       .section-title { font-size: clamp(1.5rem, 6vw, 2rem); }
       .contact-form-card { padding: 20px 16px; }
       .form-group input, .form-group textarea, .form-group select { font-size: 16px; }
       .exp-card { padding: 20px; }
       .project-card-body { padding: 16px; }
-      .edu-card-img { height: 130px; }
-      .hero-mobile-img { width: 136px; height: 136px; }
+      .edu-card-header-visual { height: 88px; }
+      .edu-header-icon-circle { width: 44px; height: 44px; }
+      .edu-header-title { font-size: 0.9rem; }
+      .skills-carousel-card { padding: 20px 16px; }
     }
   </style>
 </head>
@@ -880,8 +1057,27 @@
   <div class="container">
     <div class="hero-inner">
       <div class="hero-text">
-        <div class="hero-greeting animate-up">Md. Abid Hossain</div>
-        <h1 class="hero-title animate-up delay-1">
+
+        <!-- Mobile/Tablet profile picture -->
+        <div class="hero-mobile-pic animate-up">
+          <div class="hero-mobile-pic-inner">
+            <div class="hero-mobile-img">
+              <img src="../images/profile.jpg" alt="Md. Abid Hossain" loading="eager"/>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mobile status chips -->
+        <div class="hero-mobile-chips animate-up delay-1">
+          <div class="hero-chip"><span class="dot"></span>Available for Work</div>
+          <div class="hero-chip">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+            BSc CSE · DIU
+          </div>
+        </div>
+
+        <div class="hero-greeting animate-up delay-1">Md. Abid Hossain</div>
+        <h1 class="hero-title animate-up delay-2">
           Computer<br><span class="name">Engineer</span>
         </h1>
         <p class="hero-subtitle animate-up delay-2">Full-Stack Developer · UI/UX Enthusiast · Problem Solver</p>
@@ -890,7 +1086,10 @@
           Currently pursuing BSc CSE at Daffodil International University, Bangladesh.
         </p>
         <div class="hero-btns animate-up delay-4">
-          <a href="#projects" class="btn-primary">View Projects <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></a>
+          <a href="#projects" class="btn-primary">
+            View Projects
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+          </a>
           <a href="#contact" class="btn-outline">Get In Touch</a>
         </div>
         <div class="hero-social animate-up delay-5">
@@ -909,6 +1108,8 @@
           </a>
         </div>
       </div>
+
+      <!-- Desktop hero image -->
       <div class="hero-image-wrap animate-right delay-2">
         <div class="hero-image-bg" aria-hidden="true"></div>
         <div class="hero-image-ring" aria-hidden="true"></div>
@@ -916,8 +1117,10 @@
           <img src="../images/profile.jpg" alt="Md. Abid Hossain" loading="eager"/>
         </div>
         <div class="hero-badge-float top-right" aria-hidden="true">
-          <div style="width:36px;height:36px;display:flex;align-items:center;justify-content:center;">
-            <lottie-player src="https://assets10.lottiefiles.com/packages/lf20_3bnxmvsx.json" background="transparent" speed="1" loop autoplay style="width:32px;height:32px"></lottie-player>
+          <div class="hero-bsc-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256" fill="white">
+              <path d="M251.76,88.94l-120-64a8,8,0,0,0-7.52,0l-120,64a8,8,0,0,0,0,14.12L32,117.87V200a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V117.87l24.24-14.81a8,8,0,0,0,0-14.12ZM208,200H48V128.57l72,38.4a8.06,8.06,0,0,0,7.52,0l80-42.67V200Zm-72-47.47L39.29,96,128,47.47,216.71,96Z"/>
+            </svg>
           </div>
           <div><div class="label">BSc CSE</div><div class="sub">DIU Bangladesh</div></div>
         </div>
@@ -933,10 +1136,22 @@
 <!-- STATS -->
 <div class="stats-row" aria-label="Quick statistics">
   <div class="stats-inner">
-    <div class="stat-item"><div class="stat-num">10+</div><div class="stat-label">Projects Built</div></div>
-    <div class="stat-item"><div class="stat-num">5.00</div><div class="stat-label">GPA (SSC &amp; HSC)</div></div>
-    <div class="stat-item"><div class="stat-num">5+</div><div class="stat-label">Technologies</div></div>
-    <div class="stat-item"><div class="stat-num">3+</div><div class="stat-label">Years Coding</div></div>
+    <div class="stat-item">
+      <div class="stat-num">10+</div>
+      <div class="stat-label">Projects Built</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">5.00</div>
+      <div class="stat-label">GPA (SSC &amp; HSC)</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">5+</div>
+      <div class="stat-label">Technologies</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">3+</div>
+      <div class="stat-label">Years Coding</div>
+    </div>
   </div>
 </div>
 
@@ -990,7 +1205,7 @@
   </div>
 </section>
 
-<!-- ACADEMICS -->
+<!-- ACADEMICS — REDESIGNED (no emojis, professional icons) -->
 <section id="academics" class="section academics" aria-label="Academic background">
   <div class="container">
     <div class="reveal" style="text-align:center">
@@ -999,16 +1214,31 @@
       <p class="section-subtitle" style="margin:12px auto 0;text-align:center">A strong academic foundation built on curiosity and dedication.</p>
     </div>
     <div class="edu-grid">
+
       <!-- BSc -->
       <div class="edu-card reveal">
-        <div class="edu-card-img">
-          <img src="../photo_3_2026-05-15_17-09-37.jpg" alt="Daffodil International University"/>
+        <div class="edu-card-header-visual">
+          <div class="edu-header-content">
+            <div class="edu-header-icon-circle">
+              <!-- Graduation cap (university) -->
+              <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 256 256" fill="white">
+                <path d="M251.76,88.94l-120-64a8,8,0,0,0-7.52,0l-120,64a8,8,0,0,0,0,14.12L32,117.87V200a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V117.87l24.24-14.81a8,8,0,0,0,0-14.12ZM208,200H48V128.57l72,38.4a8.06,8.06,0,0,0,7.52,0l80-42.67V200Zm-72-47.47L39.29,96,128,47.47,216.71,96Z"/>
+              </svg>
+            </div>
+            <div class="edu-header-text">
+              <div class="edu-header-level">University · Bachelor</div>
+              <div class="edu-header-title">BSc in CSE</div>
+            </div>
+          </div>
         </div>
         <div class="edu-card-body">
-          <div class="edu-card-badge current">Currently Enrolled</div>
+          <div class="edu-card-badge current">
+            <svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4" fill="currentColor"/></svg>
+            Currently Enrolled
+          </div>
           <div class="edu-degree-row">
-            <div class="edu-lottie-wrap">
-              <lottie-player src="https://assets10.lottiefiles.com/packages/lf20_3bnxmvsx.json" background="transparent" speed="1" loop autoplay style="width:36px;height:36px"></lottie-player>
+            <div class="edu-inst-icon">
+              <img src="https://cdn.simpleicons.org/googlescholar/4285F4" alt="DIU"/>
             </div>
             <div class="edu-degree">Bachelor of Science in Computer Science &amp; Engineering</div>
           </div>
@@ -1023,16 +1253,31 @@
           </div>
         </div>
       </div>
+
       <!-- HSC -->
       <div class="edu-card reveal">
-        <div class="edu-card-img">
-          <img src="../photo_2_2026-05-15_17-09-37.jpg" alt="Nawbahini College, Dhaka"/>
+        <div class="edu-card-header-visual">
+          <div class="edu-header-content">
+            <div class="edu-header-icon-circle">
+              <!-- Book open icon (higher secondary) -->
+              <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+              </svg>
+            </div>
+            <div class="edu-header-text">
+              <div class="edu-header-level">College · Higher Secondary</div>
+              <div class="edu-header-title">HSC Certificate</div>
+            </div>
+          </div>
         </div>
         <div class="edu-card-body">
-          <div class="edu-card-badge completed">Completed 2021</div>
+          <div class="edu-card-badge completed">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            Completed 2021
+          </div>
           <div class="edu-degree-row">
-            <div class="edu-lottie-wrap">
-              <lottie-player src="https://assets10.lottiefiles.com/packages/lf20_p6akmjah.json" background="transparent" speed="1" loop autoplay style="width:36px;height:36px"></lottie-player>
+            <div class="edu-inst-icon">
+              <img src="https://cdn.simpleicons.org/bookstack/0288D1" alt="Nawbahini College"/>
             </div>
             <div class="edu-degree">Higher Secondary Certificate (HSC)</div>
           </div>
@@ -1047,16 +1292,31 @@
           </div>
         </div>
       </div>
+
       <!-- SSC -->
       <div class="edu-card reveal">
-        <div class="edu-card-img">
-          <img src="../photo_1_2026-05-15_17-09-37.jpg" alt="Mirpur Sidhanto High School"/>
+        <div class="edu-card-header-visual">
+          <div class="edu-header-content">
+            <div class="edu-header-icon-circle">
+              <!-- School/building icon -->
+              <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+              </svg>
+            </div>
+            <div class="edu-header-text">
+              <div class="edu-header-level">School · Secondary</div>
+              <div class="edu-header-title">SSC Certificate</div>
+            </div>
+          </div>
         </div>
         <div class="edu-card-body">
-          <div class="edu-card-badge completed">Completed 2019</div>
+          <div class="edu-card-badge completed">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            Completed 2019
+          </div>
           <div class="edu-degree-row">
-            <div class="edu-lottie-wrap">
-              <lottie-player src="https://assets10.lottiefiles.com/packages/lf20_5jhnybmi.json" background="transparent" speed="1" loop autoplay style="width:36px;height:36px"></lottie-player>
+            <div class="edu-inst-icon">
+              <img src="https://cdn.simpleicons.org/duolingo/58CC02" alt="School"/>
             </div>
             <div class="edu-degree">Secondary School Certificate (SSC)</div>
           </div>
@@ -1071,6 +1331,7 @@
           </div>
         </div>
       </div>
+
     </div>
   </div>
 </section>
@@ -1085,7 +1346,6 @@
     </div>
     <div class="exp-slider-outer reveal">
       <div class="exp-slider-track" id="expTrack">
-        <!-- Slide 1 -->
         <div class="exp-slide">
           <div class="exp-card">
             <div class="exp-card-header">
@@ -1103,15 +1363,10 @@
             </div>
             <div class="exp-desc">Designed and developed web applications for clients using React, Spring Boot, and Django. Delivered responsive, user-friendly interfaces and robust backend APIs. Managed project timelines and client communication independently.</div>
             <div class="exp-tags">
-              <span class="exp-tag">React</span>
-              <span class="exp-tag">Spring Boot</span>
-              <span class="exp-tag">Django</span>
-              <span class="exp-tag">REST APIs</span>
-              <span class="exp-tag">MySQL</span>
+              <span class="exp-tag">React</span><span class="exp-tag">Spring Boot</span><span class="exp-tag">Django</span><span class="exp-tag">REST APIs</span><span class="exp-tag">MySQL</span>
             </div>
           </div>
         </div>
-        <!-- Slide 2 -->
         <div class="exp-slide">
           <div class="exp-card">
             <div class="exp-card-header">
@@ -1129,14 +1384,10 @@
             </div>
             <div class="exp-desc">Collaborated with a team of developers and designers on university-level software projects. Created wireframes, prototypes, and high-fidelity mockups in Figma. Conducted usability testing and incorporated feedback into design iterations.</div>
             <div class="exp-tags">
-              <span class="exp-tag">Figma</span>
-              <span class="exp-tag">UI Design</span>
-              <span class="exp-tag">Prototyping</span>
-              <span class="exp-tag">User Research</span>
+              <span class="exp-tag">Figma</span><span class="exp-tag">UI Design</span><span class="exp-tag">Prototyping</span><span class="exp-tag">User Research</span>
             </div>
           </div>
         </div>
-        <!-- Slide 3 -->
         <div class="exp-slide">
           <div class="exp-card">
             <div class="exp-card-header">
@@ -1154,10 +1405,7 @@
             </div>
             <div class="exp-desc">Actively participating in competitive programming contests. Solved 200+ algorithmic problems on various platforms. Specialized in dynamic programming, graph algorithms, and data structures for efficient problem solving.</div>
             <div class="exp-tags">
-              <span class="exp-tag">Java</span>
-              <span class="exp-tag">Algorithms</span>
-              <span class="exp-tag">Data Structures</span>
-              <span class="exp-tag">Problem Solving</span>
+              <span class="exp-tag">Java</span><span class="exp-tag">Algorithms</span><span class="exp-tag">Data Structures</span><span class="exp-tag">Problem Solving</span>
             </div>
           </div>
         </div>
@@ -1183,55 +1431,192 @@
       <h2 class="section-title" style="margin-top:16px">Technical <span>Expertise</span></h2>
       <p class="section-subtitle" style="margin:12px auto 0;text-align:center">Technologies I use to build modern, scalable applications.</p>
     </div>
+
+    <!-- DESKTOP GRID (hidden on mobile/tablet) -->
     <div class="skills-grid">
+      <!-- Frontend -->
       <div class="skill-category reveal">
         <div class="skill-cat-icon"><img src="https://cdn.simpleicons.org/html5/E34F26" alt="Frontend" width="28" height="28"></div>
         <div class="skill-cat-title">Frontend Development</div>
         <div class="skills-list">
-          <span class="skill-tag"><img src="https://cdn.simpleicons.org/html5/E34F26" alt="" width="16" height="16"/>HTML5</span>
-          <span class="skill-tag"><img src="https://cdn.simpleicons.org/css3/1572B6" alt="" width="16" height="16"/>CSS3</span>
-          <span class="skill-tag"><img src="https://cdn.simpleicons.org/javascript/F7DF1E" alt="" width="16" height="16"/>JavaScript</span>
-          <span class="skill-tag"><img src="https://cdn.simpleicons.org/react/61DAFB" alt="" width="16" height="16"/>React</span>
-          <span class="skill-tag"><img src="https://cdn.simpleicons.org/nextdotjs/000000" alt="" width="16" height="16"/>Next.js</span>
-          <span class="skill-tag"><img src="https://cdn.simpleicons.org/tailwindcss/06B6D4" alt="" width="16" height="16"/>Tailwind CSS</span>
+          <span class="skill-tag"><img src="https://cdn.simpleicons.org/html5/E34F26" alt=""/>HTML5</span>
+          <span class="skill-tag">
+            <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1572B6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>CSS3
+          </span>
+          <span class="skill-tag"><img src="https://cdn.simpleicons.org/javascript/F7DF1E" alt=""/>JavaScript</span>
+          <span class="skill-tag"><img src="https://cdn.simpleicons.org/react/61DAFB" alt=""/>React</span>
+          <span class="skill-tag"><img src="https://cdn.simpleicons.org/nextdotjs/000000" alt=""/>Next.js</span>
+          <span class="skill-tag"><img src="https://cdn.simpleicons.org/tailwindcss/06B6D4" alt=""/>Tailwind CSS</span>
         </div>
       </div>
+      <!-- Backend -->
       <div class="skill-category reveal">
         <div class="skill-cat-icon"><img src="https://cdn.simpleicons.org/spring/6DB33F" alt="Backend" width="28" height="28"></div>
         <div class="skill-cat-title">Backend Development</div>
         <div class="skills-list">
-          <span class="skill-tag"><img src="https://cdn.simpleicons.org/java/007396" alt="" width="16" height="16"/>Java</span>
-          <span class="skill-tag"><img src="https://cdn.simpleicons.org/spring/6DB33F" alt="" width="16" height="16"/>Spring Boot</span>
-          <span class="skill-tag"><img src="https://cdn.simpleicons.org/django/092E20" alt="" width="16" height="16"/>Django</span>
-          <span class="skill-tag"><img src="https://cdn.simpleicons.org/python/3776AB" alt="" width="16" height="16"/>Python</span>
-          <span class="skill-tag"><img src="https://cdn.simpleicons.org/mysql/4479A1" alt="" width="16" height="16"/>MySQL</span>
-          <span class="skill-tag"><img src="https://cdn.simpleicons.org/postgresql/4169E1" alt="" width="16" height="16"/>PostgreSQL</span>
+          <span class="skill-tag">
+            <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#007396" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" x2="6" y1="2" y2="4"/><line x1="10" x2="10" y1="2" y2="4"/><line x1="14" x2="14" y1="2" y2="4"/></svg>Java
+          </span>
+          <span class="skill-tag"><img src="https://cdn.simpleicons.org/spring/6DB33F" alt=""/>Spring Boot</span>
+          <span class="skill-tag"><img src="https://cdn.simpleicons.org/django/092E20" alt=""/>Django</span>
+          <span class="skill-tag"><img src="https://cdn.simpleicons.org/python/3776AB" alt=""/>Python</span>
+          <span class="skill-tag"><img src="https://cdn.simpleicons.org/mysql/4479A1" alt=""/>MySQL</span>
+          <span class="skill-tag"><img src="https://cdn.simpleicons.org/postgresql/4169E1" alt=""/>PostgreSQL</span>
         </div>
       </div>
+      <!-- Mobile & UI Design -->
       <div class="skill-category reveal">
         <div class="skill-cat-icon"><img src="https://cdn.simpleicons.org/flutter/02569B" alt="Mobile" width="28" height="28"></div>
         <div class="skill-cat-title">Mobile &amp; UI Design</div>
         <div class="skills-list">
-          <span class="skill-tag"><img src="https://cdn.simpleicons.org/flutter/02569B" alt="" width="16" height="16"/>Flutter</span>
-          <span class="skill-tag"><img src="https://cdn.simpleicons.org/dart/0175C2" alt="" width="16" height="16"/>Dart</span>
-          <span class="skill-tag"><img src="https://cdn.simpleicons.org/figma/F24E1E" alt="" width="16" height="16"/>Figma</span>
-          <span class="skill-tag"><img src="https://cdn.simpleicons.org/adobexd/FF61F6" alt="" width="16" height="16"/>Adobe XD</span>
-          <span class="skill-tag"><img src="https://cdn.simpleicons.org/adobe/FF0000" alt="" width="16" height="16"/>Adobe Suite</span>
+          <span class="skill-tag"><img src="https://cdn.simpleicons.org/flutter/02569B" alt=""/>Flutter</span>
+          <span class="skill-tag"><img src="https://cdn.simpleicons.org/dart/0175C2" alt=""/>Dart</span>
+          <span class="skill-tag"><img src="https://cdn.simpleicons.org/figma/F24E1E" alt=""/>Figma</span>
+          <span class="skill-tag">
+            <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF61F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72"/><path d="m14 7 3 3"/><path d="M5 6v4"/><path d="M19 14v4"/><path d="M10 2v2"/><path d="M7 8H3"/><path d="M21 16h-4"/><path d="M11 3H9"/></svg>Adobe XD
+          </span>
+          <span class="skill-tag">
+            <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5" fill="#FF0000"/><circle cx="17.5" cy="10.5" r=".5" fill="#FF0000"/><circle cx="8.5" cy="7.5" r=".5" fill="#FF0000"/><circle cx="6.5" cy="12.5" r=".5" fill="#FF0000"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>Adobe Suite
+          </span>
         </div>
       </div>
+      <!-- Tools & DevOps -->
       <div class="skill-category reveal">
         <div class="skill-cat-icon"><img src="https://cdn.simpleicons.org/git/F05032" alt="Tools" width="28" height="28"></div>
         <div class="skill-cat-title">Tools &amp; DevOps</div>
         <div class="skills-list">
-          <span class="skill-tag"><img src="https://cdn.simpleicons.org/git/F05032" alt="" width="16" height="16"/>Git</span>
-          <span class="skill-tag"><img src="https://cdn.simpleicons.org/github/181717" alt="" width="16" height="16"/>GitHub</span>
-          <span class="skill-tag"><img src="https://cdn.simpleicons.org/docker/2496ED" alt="" width="16" height="16"/>Docker</span>
-          <span class="skill-tag"><img src="https://cdn.simpleicons.org/linux/FCC624" alt="" width="16" height="16"/>Linux</span>
-          <span class="skill-tag"><img src="https://cdn.simpleicons.org/postman/FF6C37" alt="" width="16" height="16"/>Postman</span>
-          <span class="skill-tag"><img src="https://cdn.simpleicons.org/visualstudiocode/007ACC" alt="" width="16" height="16"/>VS Code</span>
+          <span class="skill-tag"><img src="https://cdn.simpleicons.org/git/F05032" alt=""/>Git</span>
+          <span class="skill-tag"><img src="https://cdn.simpleicons.org/github/181717" alt=""/>GitHub</span>
+          <span class="skill-tag"><img src="https://cdn.simpleicons.org/docker/2496ED" alt=""/>Docker</span>
+          <span class="skill-tag"><img src="https://cdn.simpleicons.org/linux/FCC624" alt=""/>Linux</span>
+          <span class="skill-tag"><img src="https://cdn.simpleicons.org/postman/FF6C37" alt=""/>Postman</span>
+          <span class="skill-tag">
+            <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#007ACC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>VS Code
+          </span>
         </div>
       </div>
     </div>
+
+    <!-- MOBILE CAROUSEL (shown on ≤900px) -->
+    <div class="skills-mobile-carousel reveal" id="skillsCarousel">
+      <div class="skills-carousel-track-wrap">
+        <div class="skills-carousel-track" id="skillsCarouselTrack">
+
+          <!-- Slide 1: Frontend -->
+          <div class="skills-carousel-slide">
+            <div class="skills-carousel-card">
+              <div class="skills-carousel-card-header">
+                <div class="skills-carousel-cat-icon">
+                  <img src="https://cdn.simpleicons.org/html5/E34F26" alt="Frontend" width="26" height="26"/>
+                </div>
+                <div>
+                  <div class="skills-carousel-cat-title">Frontend</div>
+                  <div class="skills-carousel-cat-count">6 technologies</div>
+                </div>
+              </div>
+              <div class="skills-carousel-tags">
+                <span class="skills-carousel-tag"><img src="https://cdn.simpleicons.org/html5/E34F26" alt=""/>HTML5</span>
+                <span class="skills-carousel-tag">
+                  <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1572B6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>CSS3
+                </span>
+                <span class="skills-carousel-tag"><img src="https://cdn.simpleicons.org/javascript/F7DF1E" alt=""/>JavaScript</span>
+                <span class="skills-carousel-tag"><img src="https://cdn.simpleicons.org/react/61DAFB" alt=""/>React</span>
+                <span class="skills-carousel-tag"><img src="https://cdn.simpleicons.org/nextdotjs/000000" alt=""/>Next.js</span>
+                <span class="skills-carousel-tag"><img src="https://cdn.simpleicons.org/tailwindcss/06B6D4" alt=""/>Tailwind CSS</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slide 2: Backend -->
+          <div class="skills-carousel-slide">
+            <div class="skills-carousel-card">
+              <div class="skills-carousel-card-header">
+                <div class="skills-carousel-cat-icon">
+                  <img src="https://cdn.simpleicons.org/spring/6DB33F" alt="Backend" width="26" height="26"/>
+                </div>
+                <div>
+                  <div class="skills-carousel-cat-title">Backend</div>
+                  <div class="skills-carousel-cat-count">6 technologies</div>
+                </div>
+              </div>
+              <div class="skills-carousel-tags">
+                <span class="skills-carousel-tag">
+                  <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#007396" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" x2="6" y1="2" y2="4"/><line x1="10" x2="10" y1="2" y2="4"/><line x1="14" x2="14" y1="2" y2="4"/></svg>Java
+                </span>
+                <span class="skills-carousel-tag"><img src="https://cdn.simpleicons.org/spring/6DB33F" alt=""/>Spring Boot</span>
+                <span class="skills-carousel-tag"><img src="https://cdn.simpleicons.org/django/092E20" alt=""/>Django</span>
+                <span class="skills-carousel-tag"><img src="https://cdn.simpleicons.org/python/3776AB" alt=""/>Python</span>
+                <span class="skills-carousel-tag"><img src="https://cdn.simpleicons.org/mysql/4479A1" alt=""/>MySQL</span>
+                <span class="skills-carousel-tag"><img src="https://cdn.simpleicons.org/postgresql/4169E1" alt=""/>PostgreSQL</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slide 3: Mobile & UI -->
+          <div class="skills-carousel-slide">
+            <div class="skills-carousel-card">
+              <div class="skills-carousel-card-header">
+                <div class="skills-carousel-cat-icon">
+                  <img src="https://cdn.simpleicons.org/flutter/02569B" alt="Mobile" width="26" height="26"/>
+                </div>
+                <div>
+                  <div class="skills-carousel-cat-title">Mobile &amp; UI Design</div>
+                  <div class="skills-carousel-cat-count">5 technologies</div>
+                </div>
+              </div>
+              <div class="skills-carousel-tags">
+                <span class="skills-carousel-tag"><img src="https://cdn.simpleicons.org/flutter/02569B" alt=""/>Flutter</span>
+                <span class="skills-carousel-tag"><img src="https://cdn.simpleicons.org/dart/0175C2" alt=""/>Dart</span>
+                <span class="skills-carousel-tag"><img src="https://cdn.simpleicons.org/figma/F24E1E" alt=""/>Figma</span>
+                <span class="skills-carousel-tag">
+                  <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF61F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72"/><path d="m14 7 3 3"/><path d="M5 6v4"/><path d="M19 14v4"/><path d="M10 2v2"/><path d="M7 8H3"/><path d="M21 16h-4"/><path d="M11 3H9"/></svg>Adobe XD
+                </span>
+                <span class="skills-carousel-tag">
+                  <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5" fill="#FF0000"/><circle cx="17.5" cy="10.5" r=".5" fill="#FF0000"/><circle cx="8.5" cy="7.5" r=".5" fill="#FF0000"/><circle cx="6.5" cy="12.5" r=".5" fill="#FF0000"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>Adobe Suite
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slide 4: Tools & DevOps -->
+          <div class="skills-carousel-slide">
+            <div class="skills-carousel-card">
+              <div class="skills-carousel-card-header">
+                <div class="skills-carousel-cat-icon">
+                  <img src="https://cdn.simpleicons.org/git/F05032" alt="Tools" width="26" height="26"/>
+                </div>
+                <div>
+                  <div class="skills-carousel-cat-title">Tools &amp; DevOps</div>
+                  <div class="skills-carousel-cat-count">6 technologies</div>
+                </div>
+              </div>
+              <div class="skills-carousel-tags">
+                <span class="skills-carousel-tag"><img src="https://cdn.simpleicons.org/git/F05032" alt=""/>Git</span>
+                <span class="skills-carousel-tag"><img src="https://cdn.simpleicons.org/github/181717" alt=""/>GitHub</span>
+                <span class="skills-carousel-tag"><img src="https://cdn.simpleicons.org/docker/2496ED" alt=""/>Docker</span>
+                <span class="skills-carousel-tag"><img src="https://cdn.simpleicons.org/linux/FCC624" alt=""/>Linux</span>
+                <span class="skills-carousel-tag"><img src="https://cdn.simpleicons.org/postman/FF6C37" alt=""/>Postman</span>
+                <span class="skills-carousel-tag">
+                  <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#007ACC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>VS Code
+                </span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <!-- Carousel Navigation -->
+      <div class="skills-carousel-nav">
+        <button class="skills-carousel-btn" id="skillsPrev" aria-label="Previous skill category">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        </button>
+        <div class="skills-carousel-dots" id="skillsDots"></div>
+        <button class="skills-carousel-btn" id="skillsNext" aria-label="Next skill category">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -1245,7 +1630,6 @@
     </div>
     <div class="proj-slider-outer reveal">
       <div class="proj-slider-track" id="projTrack">
-        <!-- Project 1 -->
         <div class="proj-slide">
           <div class="project-card">
             <div class="project-lottie-wrap">
@@ -1261,7 +1645,6 @@
             </div>
           </div>
         </div>
-        <!-- Project 2 -->
         <div class="proj-slide">
           <div class="project-card">
             <div class="project-lottie-wrap">
@@ -1277,7 +1660,6 @@
             </div>
           </div>
         </div>
-        <!-- Project 3 -->
         <div class="proj-slide">
           <div class="project-card">
             <div class="project-lottie-wrap">
@@ -1293,7 +1675,6 @@
             </div>
           </div>
         </div>
-        <!-- Project 4 -->
         <div class="proj-slide">
           <div class="project-card">
             <div class="project-lottie-wrap">
@@ -1309,7 +1690,6 @@
             </div>
           </div>
         </div>
-        <!-- Project 5 -->
         <div class="proj-slide">
           <div class="project-card">
             <div class="project-lottie-wrap">
@@ -1325,7 +1705,6 @@
             </div>
           </div>
         </div>
-        <!-- Project 6 -->
         <div class="proj-slide">
           <div class="project-card">
             <div class="project-lottie-wrap">
@@ -1355,7 +1734,7 @@
   </div>
 </section>
 
-<!-- CONTACT — FORM ONLY -->
+<!-- CONTACT -->
 <section id="contact" aria-label="Contact me">
   <div class="container">
     <div class="reveal" style="text-align:center">
@@ -1587,21 +1966,20 @@
 
     const slides = track.querySelectorAll('.exp-slide, .proj-slide');
     const total = slides.length;
-    // slides per view: 2 on desktop, 1 on mobile
-    let perView = window.innerWidth <= 768 ? 1 : 2;
+    let perView = window.innerWidth <= 900 ? 1 : 2;
     let maxIndex = Math.max(0, total - perView);
     let current = 0;
     let timer;
 
-    // build dots
-    const numDots = maxIndex + 1;
-    if (dotsContainer) {
+    function buildDots() {
+      if (!dotsContainer) return;
       dotsContainer.innerHTML = '';
       for (let i = 0; i <= maxIndex; i++) {
         const dot = document.createElement('button');
         dot.className = 'slider-dot' + (i === 0 ? ' active' : '');
         dot.setAttribute('aria-label', 'Go to slide ' + (i + 1));
-        dot.addEventListener('click', () => { goTo(i); resetTimer(); });
+        const idx = i;
+        dot.addEventListener('click', () => { goTo(idx); resetTimer(); });
         dotsContainer.appendChild(dot);
       }
     }
@@ -1631,35 +2009,93 @@
     if (prevBtn) prevBtn.addEventListener('click', () => { prev(); resetTimer(); });
     if (nextBtn) nextBtn.addEventListener('click', () => { next(); resetTimer(); });
 
-    // Update on resize
     window.addEventListener('resize', () => {
-      const newPerView = window.innerWidth <= 768 ? 1 : 2;
+      const newPerView = window.innerWidth <= 900 ? 1 : 2;
       if (newPerView !== perView) {
         perView = newPerView;
         maxIndex = Math.max(0, total - perView);
         current = 0;
-        // rebuild dots
-        if (dotsContainer) {
-          dotsContainer.innerHTML = '';
-          for (let i = 0; i <= maxIndex; i++) {
-            const dot = document.createElement('button');
-            dot.className = 'slider-dot' + (i === 0 ? ' active' : '');
-            dot.setAttribute('aria-label', 'Go to slide ' + (i + 1));
-            const idx = i;
-            dot.addEventListener('click', () => { goTo(idx); resetTimer(); });
-            dotsContainer.appendChild(dot);
-          }
-        }
+        buildDots();
         goTo(0);
       }
     });
 
-    // Start
+    buildDots();
     resetTimer();
   }
 
   initSlider('expTrack', 'expPrev', 'expNext', 'expDots', 4000);
   initSlider('projTrack', 'projPrev', 'projNext', 'projDots', 4500);
+
+  /* ══════════ SKILLS CAROUSEL (mobile) ══════════ */
+  (function initSkillsCarousel() {
+    const track = document.getElementById('skillsCarouselTrack');
+    const dotsContainer = document.getElementById('skillsDots');
+    const prevBtn = document.getElementById('skillsPrev');
+    const nextBtn = document.getElementById('skillsNext');
+    if (!track) return;
+
+    const slides = track.querySelectorAll('.skills-carousel-slide');
+    const total = slides.length;
+    let current = 0;
+    let autoTimer;
+
+    function buildDots() {
+      dotsContainer.innerHTML = '';
+      for (let i = 0; i < total; i++) {
+        const dot = document.createElement('button');
+        dot.className = 'skills-carousel-dot' + (i === 0 ? ' active' : '');
+        dot.setAttribute('aria-label', 'Skill category ' + (i + 1));
+        const idx = i;
+        dot.addEventListener('click', () => { goTo(idx); resetTimer(); });
+        dotsContainer.appendChild(dot);
+      }
+    }
+
+    function updateDots() {
+      dotsContainer.querySelectorAll('.skills-carousel-dot').forEach((d, i) => {
+        d.classList.toggle('active', i === current);
+      });
+    }
+
+    function goTo(idx) {
+      current = (idx + total) % total;
+      track.style.transform = `translateX(-${current * 100}%)`;
+      updateDots();
+    }
+
+    function next() { goTo(current + 1); }
+    function prev() { goTo(current - 1); }
+
+    function resetTimer() {
+      clearInterval(autoTimer);
+      autoTimer = setInterval(next, 5000);
+    }
+
+    if (prevBtn) prevBtn.addEventListener('click', () => { prev(); resetTimer(); });
+    if (nextBtn) nextBtn.addEventListener('click', () => { next(); resetTimer(); });
+
+    /* Touch swipe support */
+    let touchStartX = 0, touchStartY = 0;
+    const wrap = document.querySelector('.skills-carousel-track-wrap');
+    if (wrap) {
+      wrap.addEventListener('touchstart', e => {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+      }, { passive: true });
+      wrap.addEventListener('touchend', e => {
+        const dx = e.changedTouches[0].clientX - touchStartX;
+        const dy = e.changedTouches[0].clientY - touchStartY;
+        if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+          dx < 0 ? next() : prev();
+          resetTimer();
+        }
+      }, { passive: true });
+    }
+
+    buildDots();
+    resetTimer();
+  })();
 
   /* ══════════ EMAILJS CONTACT FORM ══════════ */
   const contactForm = document.getElementById('contactForm');
