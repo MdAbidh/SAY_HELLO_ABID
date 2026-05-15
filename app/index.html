@@ -103,57 +103,7 @@
 
     a { text-decoration: none; color: inherit; }
 
-    /* ═══════════════════ LOADING SCREEN ═══════════════════ */
-    .loading-screen {
-      position: fixed; inset: 0;
-      background: linear-gradient(135deg, var(--bg) 0%, var(--green-50) 50%, var(--bg) 100%);
-      z-index: 9999;
-      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 24px;
-      transition: opacity .7s ease, transform .7s ease;
-    }
-    .loading-screen.hidden { opacity: 0; pointer-events: none; transform: scale(1.08); }
-    .loading-logo {
-      font-family: var(--font-display); font-size: 3.5rem; font-weight: 800; color: var(--primary);
-      letter-spacing: -2px; position: relative;
-      animation: logoPulse 2s ease-in-out infinite;
-    }
-    .loading-logo::after {
-      content: ''; position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%);
-      width: 60px; height: 4px;
-      background: linear-gradient(90deg, transparent, var(--primary), transparent);
-      border-radius: 99px;
-    }
-    @keyframes logoPulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); text-shadow: 0 0 30px rgba(22,163,74,0.3); }
-    }
-    .loading-spinner { width: 60px; height: 60px; position: relative; }
-    .loading-spinner div {
-      position: absolute; width: 100%; height: 100%; border-radius: 50%;
-      border: 3px solid transparent; border-top-color: var(--primary);
-      animation: spin 1.1s cubic-bezier(0.4,0,0.2,1) infinite;
-    }
-    .loading-spinner div:nth-child(2) {
-      width: 72%; height: 72%; top: 14%; left: 14%;
-      border-top-color: var(--primary-light);
-      animation-duration: 0.75s; animation-direction: reverse;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .loading-bar-wrap {
-      width: 220px; height: 4px; background: var(--border); border-radius: 99px; overflow: hidden;
-    }
-    .loading-bar {
-      height: 100%; background: linear-gradient(90deg, var(--primary), var(--primary-light), var(--primary));
-      background-size: 300% 100%; border-radius: 99px;
-      animation: load-bar 2s ease forwards, shimmer 2s infinite;
-    }
-    @keyframes load-bar { from { width: 0; } to { width: 100%; } }
-    @keyframes shimmer { 0%{background-position:300% 0} 100%{background-position:-300% 0} }
-    .loading-text {
-      font-size: 13px; color: var(--gray-400); letter-spacing: 0.1em; text-transform: uppercase;
-      animation: textFade 1.5s ease infinite alternate;
-    }
-    @keyframes textFade { from{opacity:.5} to{opacity:1} }
+
 
     /* ═══════════════════ NAVBAR ═══════════════════ */
     .navbar {
@@ -222,6 +172,7 @@
       color: var(--text-muted); font-size: 16px; transition: var(--transition);
     }
     .theme-toggle:hover { border-color: var(--primary); color: var(--primary); }
+    .theme-toggle i { transition: transform 0.3s ease; }
 
     /* Hamburger */
     .hamburger {
@@ -461,6 +412,7 @@
       border-radius: 14px; display: flex; align-items: center; justify-content: center;
       font-size: 24px; margin-bottom: 14px;
     }
+    .highlight-icon img { width: 32px; height: 32px; }
     .highlight-title {
       font-family: var(--font-display); font-size: 1.1rem; font-weight: 700;
       color: var(--text); margin-bottom: 8px;
@@ -546,6 +498,15 @@
       0% { transform: translateX(0); }
       100% { transform: translateX(-50%); }
     }
+    .carousel-dots {
+      display: flex; gap: 8px; justify-content: center; margin-top: 32px;
+    }
+    .carousel-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--border); border: none; cursor: pointer;
+      transition: var(--transition); padding: 0;
+    }
+    .carousel-dot.active { background: var(--primary); width: 28px; border-radius: 99px; }
     .carousel-card {
       flex-shrink: 0; width: 360px;
       background: var(--card-bg); border: 1px solid var(--border);
@@ -609,6 +570,7 @@
     }
     .skill-category:hover { border-color: var(--primary); box-shadow: var(--shadow-card); }
     .skill-cat-icon { font-size: 2rem; margin-bottom: 12px; }
+    .skill-cat-icon img { width: 28px; height: 28px; }
     .skill-cat-title {
       font-family: var(--font-display); font-size: 1.15rem; font-weight: 700;
       color: var(--text); margin-bottom: 20px;
@@ -735,14 +697,21 @@
 
     /* Right: Form */
     .contact-form-card {
-      background: var(--card-bg); border: 1px solid var(--border);
+      background: var(--card-bg); border: 1.5px solid var(--border);
       border-radius: 28px; padding: 44px 40px;
-      box-shadow: var(--shadow-card);
+      box-shadow: 0 0 40px rgba(22,163,74,0.15);
       position: relative; overflow: hidden;
+      background: linear-gradient(135deg, var(--card-bg) 0%, var(--green-50) 50%, var(--card-bg) 100%);
     }
     .contact-form-card::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
-      background: linear-gradient(90deg, var(--primary), var(--primary-light));
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--primary-light), var(--primary));
+      box-shadow: 0 0 20px rgba(22,163,74,0.6);
+    }
+    .contact-form-card::after {
+      content: ''; position: absolute; inset: 0; border-radius: 28px;
+      background: radial-gradient(circle at top right, rgba(22,163,74,0.08), transparent 50%);
+      pointer-events: none;
     }
     .form-title {
       font-family: var(--font-display); font-size: 1.5rem; font-weight: 800;
@@ -789,10 +758,13 @@
       cursor: pointer; transition: var(--transition);
       display: flex; align-items: center; justify-content: center; gap: 8px;
       letter-spacing: 0.02em;
+      box-shadow: 0 0 20px rgba(22,163,74,0.3);
+      text-transform: uppercase;
+      position: relative;
     }
     .form-submit:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-green);
+      transform: translateY(-3px);
+      box-shadow: 0 0 30px rgba(22,163,74,0.6), 0 10px 30px rgba(22,163,74,0.2);
     }
     .form-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
     .form-status {
@@ -891,32 +863,33 @@
       .hero-desc { margin-inline: auto; }
       .about-inner-compact { grid-template-columns: 1fr; }
       .about-highlights-side { padding-top: 0; }
+      .about-info-grid { grid-template-columns: 1fr; }
       .stats-inner { grid-template-columns: repeat(2,1fr); }
       .contact-unified { grid-template-columns: 1fr; }
-      .contact-form-card { padding: 32px 24px; }
+      .contact-form-card { padding: 24px 20px; }
       .form-row { grid-template-columns: 1fr; }
       .footer-inner { grid-template-columns: 1fr; gap: 32px; }
       .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
       .navbar-links { display: none; }
       .hamburger { display: flex; }
       .edu-grid { grid-template-columns: 1fr; }
+      .carousel-wrapper { -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%); mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%); }
     }
     @media (max-width: 480px) {
-      .stats-inner { grid-template-columns: repeat(2,1fr); }
-      .loading-logo { font-size: 2.5rem; }
+      .stats-inner { grid-template-columns: 1fr; }
       .about-info-grid { grid-template-columns: 1fr; }
+      .container { padding: 0 16px; }
+      .app-hero { padding: 80px 0 40px; }
+      .section { padding: 60px 0; }
+      .hero-title { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+      .section-title { font-size: clamp(1.5rem, 3vw, 2rem); }
+      .contact-form-card { padding: 20px 16px; }
+      .form-group label { font-size: 12px; }
+      .form-group input, .form-group textarea, .form-group select { font-size: 16px; padding: 12px 14px; }
     }
   </style>
 </head>
 <body>
-
-<!-- LOADING SCREEN -->
-<div class="loading-screen" id="loadingScreen" aria-live="polite">
-  <div class="loading-logo">A<span style="color:var(--primary-light)">.</span>H</div>
-  <div class="loading-spinner"><div></div><div></div></div>
-  <div class="loading-bar-wrap"><div class="loading-bar"></div></div>
-  <div class="loading-text">Loading amazing things for you...</div>
-</div>
 
 <!-- NAVBAR -->
 <nav class="navbar" id="navbar" role="navigation">
@@ -932,7 +905,7 @@
       <a href="#contact">Contact</a>
     </div>
     <div class="navbar-cta">
-      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode"><i class="fa-solid fa-moon"></i></button>
       <a href="#contact" class="btn-primary">
         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
         Hire Me
@@ -953,7 +926,7 @@
   <a href="#skills" onclick="closeMobile()">Skills</a>
   <a href="#projects" onclick="closeMobile()">Projects</a>
   <a href="#contact" onclick="closeMobile()">Contact</a>
-  <a href="#contact" class="btn-primary" style="margin-top:12px;justify-content:center" onclick="closeMobile()">Hire Me ✉️</a>
+  <a href="#contact" class="btn-primary" style="margin-top:12px;justify-content:center" onclick="closeMobile()">Hire Me</a>
 </nav>
 
 <main id="app">
@@ -1058,7 +1031,7 @@
             <div class="label">Email</div><div class="value" style="font-size:12px">abid27016@gmail.com</div>
           </div>
           <div class="about-info-item">
-            <div class="label">Status</div><div class="value" style="color:var(--primary)">✓ Open to Work</div>
+            <div class="label">Status</div><div class="value" style="color:var(--primary)">Open to Work</div>
           </div>
         </div>
         <div class="reveal" style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px">
@@ -1068,17 +1041,17 @@
       </div>
       <div class="about-highlights-side">
         <div class="highlight-card reveal">
-          <div class="highlight-icon">🚀</div>
+          <div class="highlight-icon"><img src="https://cdn.simpleicons.org/react/61DAFB" alt="React" width="32" height="32"></div>
           <div class="highlight-title">Full-Stack Developer</div>
           <div class="highlight-desc">Building end-to-end web applications with React, Spring Boot, and Django. From database design to responsive UIs.</div>
         </div>
         <div class="highlight-card reveal">
-          <div class="highlight-icon">🎨</div>
+          <div class="highlight-icon"><img src="https://cdn.simpleicons.org/figma/F24E1E" alt="Figma" width="32" height="32"></div>
           <div class="highlight-title">UI/UX Enthusiast</div>
           <div class="highlight-desc">Crafting beautiful, intuitive interfaces in Figma. Balancing aesthetics with usability in every project.</div>
         </div>
         <div class="highlight-card reveal">
-          <div class="highlight-icon">🏆</div>
+          <div class="highlight-icon"><img src="https://cdn.simpleicons.org/leetcode/F7DF1E" alt="Coding" width="32" height="32"></div>
           <div class="highlight-title">Competitive Programmer</div>
           <div class="highlight-desc">200+ algorithmic problems solved on Codeforces, LeetCode, and HackerRank. Strong foundations in DSA.</div>
         </div>
@@ -1098,30 +1071,36 @@
     <div class="edu-grid">
       <!-- BSc -->
       <div class="edu-card reveal">
-        <div class="edu-card-badge current">🟢 Currently Enrolled</div>
-        <div class="edu-icon">🎓</div>
+        <div class="edu-card-badge current">Currently Enrolled</div>
+        <div class="edu-icon">
+          <lottie-player src="https://assets10.lottiefiles.com/packages/lf20_3bnxmvsx.json" background="transparent" speed="1" loop autoplay style="width:48px;height:48px"></lottie-player>
+        </div>
         <div class="edu-degree">Bachelor of Science in Computer Science &amp; Engineering</div>
         <div class="edu-school">Daffodil International University</div>
-        <div class="edu-meta">📍 Dhaka, Bangladesh &nbsp;·&nbsp; 2022 — Present</div>
-        <div class="edu-gpa">🏫 In Progress</div>
+        <div class="edu-meta">Dhaka, Bangladesh · 2022 — Present</div>
+        <div class="edu-gpa">In Progress</div>
       </div>
       <!-- HSC -->
       <div class="edu-card reveal">
-        <div class="edu-card-badge completed">✅ Completed 2021</div>
-        <div class="edu-icon">📚</div>
+        <div class="edu-card-badge completed">Completed 2021</div>
+        <div class="edu-icon">
+          <lottie-player src="https://assets10.lottiefiles.com/packages/lf20_p6akmjah.json" background="transparent" speed="1" loop autoplay style="width:48px;height:48px"></lottie-player>
+        </div>
         <div class="edu-degree">Higher Secondary Certificate (HSC)</div>
         <div class="edu-school">Noubahini College Dhaka</div>
-        <div class="edu-meta">📍 Dhaka, Bangladesh &nbsp;·&nbsp; 2021</div>
-        <div class="edu-gpa">⭐ GPA 5.00 / 5.00</div>
+        <div class="edu-meta">Dhaka, Bangladesh · 2021</div>
+        <div class="edu-gpa">GPA 5.00 / 5.00</div>
       </div>
       <!-- SSC -->
       <div class="edu-card reveal">
-        <div class="edu-card-badge completed">✅ Completed 2019</div>
-        <div class="edu-icon">📖</div>
+        <div class="edu-card-badge completed">Completed 2019</div>
+        <div class="edu-icon">
+          <lottie-player src="https://assets10.lottiefiles.com/packages/lf20_5jhnybmi.json" background="transparent" speed="1" loop autoplay style="width:48px;height:48px"></lottie-player>
+        </div>
         <div class="edu-degree">Secondary School Certificate (SSC)</div>
         <div class="edu-school">Mirpur Shidhanto High School</div>
-        <div class="edu-meta">📍 Mirpur, Dhaka &nbsp;·&nbsp; 2019</div>
-        <div class="edu-gpa">⭐ GPA 5.00 / 5.00</div>
+        <div class="edu-meta">Mirpur, Dhaka · 2019</div>
+        <div class="edu-gpa">GPA 5.00 / 5.00</div>
       </div>
     </div>
   </div>
@@ -1149,7 +1128,7 @@
             <div class="cc-company">Self-Employed / Freelance</div>
           </div>
         </div>
-        <div class="cc-period">📅 2023 — Present</div>
+        <div class="cc-period">2023 — Present</div>
         <div class="cc-desc">Designed and developed web applications for clients using React, Spring Boot, and Django. Delivered responsive, user-friendly interfaces and robust backend APIs. Managed project timelines and client communication independently.</div>
         <div class="cc-tags">
           <span class="cc-tag">React</span>
@@ -1170,7 +1149,7 @@
             <div class="cc-company">Campus Project Team — DIU</div>
           </div>
         </div>
-        <div class="cc-period">📅 2023</div>
+        <div class="cc-period">2023</div>
         <div class="cc-desc">Collaborated with a team of developers and designers on university-level software projects. Created wireframes, prototypes, and high-fidelity mockups in Figma. Conducted usability testing and incorporated feedback into design iterations.</div>
         <div class="cc-tags">
           <span class="cc-tag">Figma</span>
@@ -1190,7 +1169,7 @@
             <div class="cc-company">Codeforces, LeetCode, HackerRank</div>
           </div>
         </div>
-        <div class="cc-period">📅 2021 — Present</div>
+        <div class="cc-period">2021 — Present</div>
         <div class="cc-desc">Actively participating in competitive programming contests. Solved 200+ algorithmic problems on various platforms. Specialized in dynamic programming, graph algorithms, and data structures for efficient problem solving.</div>
         <div class="cc-tags">
           <span class="cc-tag">Java</span>
@@ -1210,7 +1189,7 @@
             <div class="cc-company">Self-Employed / Freelance</div>
           </div>
         </div>
-        <div class="cc-period">📅 2023 — Present</div>
+        <div class="cc-period">2023 — Present</div>
         <div class="cc-desc">Designed and developed web applications for clients using React, Spring Boot, and Django. Delivered responsive, user-friendly interfaces and robust backend APIs.</div>
         <div class="cc-tags">
           <span class="cc-tag">React</span><span class="cc-tag">Spring Boot</span><span class="cc-tag">Django</span><span class="cc-tag">MySQL</span>
@@ -1242,13 +1221,16 @@
             <div class="cc-company">Codeforces, LeetCode, HackerRank</div>
           </div>
         </div>
-        <div class="cc-period">📅 2021 — Present</div>
+        <div class="cc-period">2021 — Present</div>
         <div class="cc-desc">Solved 200+ algorithmic problems. Specialized in dynamic programming, graph algorithms, and data structures.</div>
         <div class="cc-tags">
           <span class="cc-tag">Java</span><span class="cc-tag">Algorithms</span><span class="cc-tag">Data Structures</span>
         </div>
       </div>
     </div>
+  </div>
+  <div class="container" style="margin-top:32px">
+    <div class="carousel-dots" id="expDots"></div>
   </div>
 </section>
 
@@ -1262,7 +1244,7 @@
     </div>
     <div class="skills-grid">
       <div class="skill-category reveal">
-        <div class="skill-cat-icon">🌐</div>
+        <div class="skill-cat-icon"><img src="https://cdn.simpleicons.org/html5/E34F26" alt="Frontend" width="28" height="28"></div>
         <div class="skill-cat-title">Frontend Development</div>
         <div class="skills-list">
           <span class="skill-tag"><img src="https://cdn.simpleicons.org/html5/E34F26" alt="" width="16" height="16"/>HTML5</span>
@@ -1274,7 +1256,7 @@
         </div>
       </div>
       <div class="skill-category reveal">
-        <div class="skill-cat-icon">⚙️</div>
+        <div class="skill-cat-icon"><img src="https://cdn.simpleicons.org/spring/6DB33F" alt="Backend" width="28" height="28"></div>
         <div class="skill-cat-title">Backend Development</div>
         <div class="skills-list">
           <span class="skill-tag"><i class="fa-brands fa-java"></i>Java</span>
@@ -1286,7 +1268,7 @@
         </div>
       </div>
       <div class="skill-category reveal">
-        <div class="skill-cat-icon">📱</div>
+        <div class="skill-cat-icon"><img src="https://cdn.simpleicons.org/flutter/02569B" alt="Mobile" width="28" height="28"></div>
         <div class="skill-cat-title">Mobile &amp; UI Design</div>
         <div class="skills-list">
           <span class="skill-tag"><img src="https://cdn.simpleicons.org/flutter/02569B" alt="" width="16" height="16"/>Flutter</span>
@@ -1297,7 +1279,7 @@
         </div>
       </div>
       <div class="skill-category reveal">
-        <div class="skill-cat-icon">🛠️</div>
+        <div class="skill-cat-icon"><img src="https://cdn.simpleicons.org/git/F05032" alt="Tools" width="28" height="28"></div>
         <div class="skill-cat-title">Tools &amp; DevOps</div>
         <div class="skills-list">
           <span class="skill-tag"><img src="https://cdn.simpleicons.org/git/F05032" alt="" width="16" height="16"/>Git</span>
@@ -1425,6 +1407,9 @@
       </div>
     </div>
   </div>
+  <div class="container" style="margin-top:32px">
+    <div class="carousel-dots" id="projDots"></div>
+  </div>
 </section>
 
 <!-- ════════════ CONTACT — UNIFIED REDESIGN ════════════ -->
@@ -1467,7 +1452,7 @@
             </div>
             <div>
               <div class="contact-detail-label">Status</div>
-              <div class="contact-detail-value" style="color:var(--primary)">✓ Open to Opportunities</div>
+              <div class="contact-detail-value" style="color:var(--primary)">Open to Opportunities</div>
             </div>
           </div>
           <!-- Response Time -->
@@ -1500,8 +1485,8 @@
 
       <!-- Right: Form Card -->
       <div class="contact-form-card reveal">
-        <div class="form-title">Send a Message 💬</div>
-        <div class="form-subtitle">Fill out the form below and I'll get back to you as soon as possible.</div>
+        <div class="form-title">Let's Connect</div>
+        <div class="form-subtitle">Drop a message and let's create something amazing together.</div>
         <form id="contactForm" novalidate>
           <div class="form-row">
             <div class="form-group">
@@ -1536,8 +1521,8 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
             Send Message
           </button>
-          <p id="formMsgSuccess" class="form-status success">✓ Message sent! I'll get back to you within 24 hours.</p>
-          <p id="formMsgError" class="form-status error">✗ Failed to send. Please email me directly at abid27016@gmail.com</p>
+          <p id="formMsgSuccess" class="form-status success" style="display:none"></p>
+          <p id="formMsgError" class="form-status error" style="display:none"></p>
         </form>
       </div>
     </div>
@@ -1609,14 +1594,6 @@
     emailjs.init(EMAILJS_PUBLIC_KEY);
   }
 
-  /* ══════════ LOADING ══════════ */
-  window.addEventListener('load', () => {
-    setTimeout(() => {
-      const ls = document.getElementById('loadingScreen');
-      if (ls) { ls.classList.add('hidden'); setTimeout(() => ls.remove(), 700); }
-    }, 2200);
-  });
-
   /* ══════════ YEAR ══════════ */
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
@@ -1626,17 +1603,17 @@
   const savedTheme = localStorage.getItem('portfolio-theme') || 'light';
   if (savedTheme === 'dark') {
     document.documentElement.setAttribute('data-theme', 'dark');
-    themeToggle.textContent = '☀️';
+    themeToggle.innerHTML = '<i class="fa-solid fa-sun"></i>';
   }
   themeToggle.addEventListener('click', () => {
     const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
     if (isDark) {
       document.documentElement.removeAttribute('data-theme');
-      themeToggle.textContent = '🌙';
+      themeToggle.innerHTML = '<i class="fa-solid fa-moon"></i>';
       localStorage.setItem('portfolio-theme', 'light');
     } else {
       document.documentElement.setAttribute('data-theme', 'dark');
-      themeToggle.textContent = '☀️';
+      themeToggle.innerHTML = '<i class="fa-solid fa-sun"></i>';
       localStorage.setItem('portfolio-theme', 'dark');
     }
   });
@@ -1753,6 +1730,33 @@
       }
     });
   }
+
+  /* ══════════ CAROUSEL DOTS NAVIGATION ══════════ */
+  function initCarouselDots(trackId, dotsContainerId) {
+    const track = document.getElementById(trackId);
+    const dotsContainer = document.getElementById(dotsContainerId);
+    if (!track || !dotsContainer) return;
+
+    const cards = track.querySelectorAll('.carousel-card');
+    const uniqueCards = Math.ceil(cards.length / 2);
+
+    for (let i = 0; i < uniqueCards; i++) {
+      const dot = document.createElement('button');
+      dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+      dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+      dot.addEventListener('click', () => {
+        const offset = -(i * (360 + 24));
+        track.style.transform = `translateX(${offset}px)`;
+        track.style.animation = 'none';
+        document.querySelectorAll(`#${dotsContainerId} .carousel-dot`).forEach(d => d.classList.remove('active'));
+        dot.classList.add('active');
+      });
+      dotsContainer.appendChild(dot);
+    }
+  }
+
+  initCarouselDots('expTrack', 'expDots');
+  initCarouselDots('projTrack', 'projDots');
 </script>
 </body>
 </html>
